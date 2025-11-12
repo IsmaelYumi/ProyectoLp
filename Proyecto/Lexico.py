@@ -1,6 +1,7 @@
 import ply
 
 import ply.lex as lex
+from datetime import datetime
 
 # List of token names.   This is always required
 reserved = {
@@ -12,6 +13,8 @@ reserved = {
    'double':'DOUBLE'
 }
 tokens = (
+   'LBRACE', 
+   'RBRACE',
    'NUMBER',
    'PLUS',
    'MINUS',
@@ -20,12 +23,12 @@ tokens = (
    'LPAREN',
    'RPAREN',
    'VARIABLE',
-   'DISTINT',
+   'SEMICOLON',
+   'DOT',
    'ARROBA',
    'COMPARE',
    'ID'
 )+tuple(reserved.values())
-
 
 # Regular expression rules for simple tokens
 t_PLUS    = r'\+'
@@ -35,10 +38,19 @@ t_DIVIDE  = r'/'
 t_LPAREN  = r'\('
 t_RPAREN  = r'\)'
 t_VARIABLE=r'_[a-z]\w+'
-t_DISTINT=r'!='
-t_ARROBA=r'@'
 t_COMPARE=r'={2}'
+t_SEMICOLON  = r';'
+t_DOT        = r'\.'
+t_LBRACE     = r'\{'
+t_RBRACE     = r'\}'
 
+nombre=input("Ingresa el nombre de github. ")
+fecha_actual = datetime.now().strftime("%d-%m-%Y")
+algoritmo=input("Escribe el nombre del algoritmo")
+def leer(nombre_algo):
+    with open("./Algoritmos/"+nombre_algo+".cs", "r", encoding="utf-8") as f:
+        contenido = f.read()
+    return contenido
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value,'ID')    # Check for reserved words
@@ -53,32 +65,30 @@ def t_NUMBER(t):
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
-
-
-
 # A string containing ignored characters (spaces and tabs)
 t_ignore  = ' \t'
 
 # Error handling rule
 def t_error(t):
-    print("El cararcter no es valido: "+str(t.value[0]))
+    msg = f"Caracter no registrado: {t.value[0]!r} en linea {t.lexer.lineno}"
+    print(msg)
+    # Escribe (añade) al archivo de log de errores
+    with open("./Logs/"+"lexico-"+nombre+"-"+fecha_actual+".txt", "a+", encoding="utf-8") as f:
+        f.write(msg + "\n")
     t.lexer.skip(1)
 
 # Build the lexer
 lexer = lex.lex()
-
 # Test it out
-data = '''
-3 + 4 .* 10
-  + -20 *2 @ _var == int !=
-'''
-
+data=leer(algoritmo)
 # Give the lexer some input
 lexer.input(data)
-
-# Tokenize
-while True:
-    tok = lexer.token()
-    if not tok: 
-        break      # No more input
-    print(tok)
+# Tokenize(cambios para)
+with open("./Logs/"+"lexico-"+nombre+"-"+fecha_actual+".txt", "w+", encoding="utf-8")as out:
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break      
+        line = f"{tok.type}({tok.value}) en linea {tok.lineno} posicion {tok.lexpos}"
+        print(line)
+        out.write(line + "\n")
