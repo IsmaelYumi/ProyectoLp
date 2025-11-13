@@ -44,6 +44,19 @@ t_DOT        = r'\.'
 t_LBRACE     = r'\{'
 t_RBRACE     = r'\}'
 
+# Operador módulo %
+t_MOD = r'%'
+
+# Operador de asignación =
+t_EQUAL = r'='
+
+# Operador diferente !=
+t_NOTEQUAL = r'!='
+
+# Operadores del operador ternario ? :
+t_TERNARIO_Q = r'\?'
+t_TERNARIO_C = r':'
+
 nombre=input("Ingresa el nombre de github. ")
 fecha_actual = datetime.now().strftime("%d-%m-%Y")
 algoritmo=input("Escribe el nombre del algoritmo")
@@ -76,6 +89,17 @@ def t_error(t):
     with open("./Logs/"+"lexico-"+nombre+"-"+fecha_actual+".txt", "a+", encoding="utf-8") as f:
         f.write(msg + "\n")
     t.lexer.skip(1)
+
+# Token para strings en C# usando comillas dobles
+def t_STRING(t):
+    r'\"([^\\\n]|(\\.))*?\"'
+    return t
+
+# Token para comentarios de línea //
+def t_COMMENT(t):
+    r'//.*'
+    pass  # Se ignoran los comentarios
+
 
 # Build the lexer
 lexer = lex.lex()
