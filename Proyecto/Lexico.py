@@ -27,7 +27,13 @@ tokens = (
    'DOT',
    'ARROBA',
    'COMPARE',
-   'ID'
+   'ID',
+   'MOD',          # %
+   'EQUAL',        # =
+   'NOTEQUAL',     # !=
+   'TERNARIO_Q',   # ?
+   'TERNARIO_C',   # :
+   'STRING'       # "texto"
 )+tuple(reserved.values())
 
 # Regular expression rules for simple tokens

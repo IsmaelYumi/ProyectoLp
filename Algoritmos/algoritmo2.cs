@@ -1,26 +1,46 @@
 using System;
 
-class Verificador
+class Program
 {
     static void Main()
     {
-        // Leer número del usuario
-        Console.Write("Ingrese un número entero: ");
-        int n = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Ingrese la primera cadena:");
+        string cadena1 = Console.ReadLine();
 
-        // Verificar si es par o impar
-        if (n % 2 == 0)
+        Console.WriteLine("Ingrese la segunda cadena:");
+        string cadena2 = Console.ReadLine();
+
+        bool esPalindromo1 = EsPalindromo(cadena1);
+        bool esPalindromo2 = EsPalindromo(cadena2);
+
+        Console.WriteLine($"\n¿\"{cadena1}\" es palíndromo? {esPalindromo1}");
+        Console.WriteLine($"¿\"{cadena2}\" es palíndromo? {esPalindromo2}");
+
+        if (esPalindromo1 && esPalindromo2)
         {
-            Console.WriteLine($"El número {n} es PAR");
+            Console.WriteLine("\nAmbas cadenas son palíndromos.");
+        }
+        else if (esPalindromo1 || esPalindromo2)
+        {
+            Console.WriteLine("\nSolo una de las cadenas es palíndromo.");
         }
         else
         {
-            Console.WriteLine($"El número {n} es IMPAR");
+            Console.WriteLine("\nNinguna de las cadenas es palíndromo.");
         }
+    }
 
-        // Calcular el cuadrado
-        int cuadrado = n * n;
+    static bool EsPalindromo(string texto)
+    {
+        // Eliminamos espacios y convertimos a minúsculas
+        string limpio = texto.Replace(" ", "").ToLower();
 
-        Console.WriteLine($"El cuadrado de {n} es: {cuadrado}");
+        // Invertimos la cadena
+        char[] arreglo = limpio.ToCharArray();
+        Array.Reverse(arreglo);
+        string invertido = new string(arreglo);
+
+        // Comparamos
+        return limpio == invertido;
     }
 }
