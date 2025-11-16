@@ -11,7 +11,7 @@ reserved = {
    'while' : 'WHILE',
    'int': 'INT',
    'double':'DOUBLE',
-   'char:': 'CHAR',
+   'char': 'CHAR',
    
 }
 tokens = (
