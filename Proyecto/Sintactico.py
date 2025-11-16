@@ -32,8 +32,8 @@ def p_sentencias(p):
 
 def p_sentencia(p):
     '''sentencia : estructura_control
-                 | asignacion          # Necesaria para inicializaciones y asignaciones
-                 | declaracion_var     # Necesaria para variables locales en bloques
+                 | asignacion          
+                 | declaracion_var  
                  | expresion PUNTO_COMA'''
     p[0] = p[1]
 
@@ -49,7 +49,7 @@ def p_empty(p):
     'empty :'
     pass
 
-# --- Reglas de Soporte Necesarias (Otros compañeros las complementarán) ---
+
 
 def p_expresion(p):
     '''expresion : expresion PLUS expresion
@@ -73,11 +73,20 @@ def p_condicion(p):
         p[0] = p[1]
 
 def p_relacional(p):
-    '''relacional : EQ | NE | LT | LE | GT | GE'''
+    '''relacional : EQ
+                  | NE
+                  | LT
+                  | LE
+                  | GT
+                  | GE'''
     p[0] = p[1]
 
 def p_tipo(p):
-    '''tipo : T_INT | T_FLOAT | T_STRING | T_BOOL | ID''' 
+    '''tipo : T_INT 
+            | T_FLOAT  
+            | T_STRING 
+            | T_BOOL 
+            | ID''' 
     p[0] = p[1]
 
 def p_declaracion_var(p):
@@ -88,21 +97,18 @@ def p_asignacion(p):
     '''asignacion : ID ASSIGN expresion PUNTO_COMA'''
     p[0] = ('ASIGNACION', p[1], p[3])
 
-# --- 1. Tu Contribución: Estructuras de Control (Estructura de Control y Tipo de Función) ---
-
-# Contribución: [Tu_Nombre_Usuario_Git] (Estructura de Control: WHILE)
 def p_estructura_control(p):
     '''estructura_control : while_statement
-                          | if_statement # Incluido para el ejemplo de bloque
+                          | if_statement
                           | for_statement'''
     p[0] = p[1]
 
 def p_while_statement(p):
     '''while_statement : T_WHILE LPAREN condicion RPAREN bloque'''
-    # Ejemplo: while (i < 10) { ... }
+    
     p[0] = ('WHILE', p[3], p[5])
 
-# Contribución: [Otro_Compañero] (Estructura de Control: IF)
+
 def p_if_statement(p):
     '''if_statement : T_IF LPAREN condicion RPAREN bloque
                     | T_IF LPAREN condicion RPAREN bloque T_ELSE bloque'''
@@ -111,7 +117,6 @@ def p_if_statement(p):
     else:
         p[0] = ('IF_ELSE', p[3], p[5], p[7])
 
-# Contribución: [Otro_Compañero] (Estructura de Control: FOR)
 def p_for_statement(p):
     '''for_statement : T_FOR LPAREN for_inicializacion PUNTO_COMA condicion PUNTO_COMA for_incremento RPAREN bloque'''
     p[0] = ('FOR', p[3], p[5], p[7], p[9])
@@ -124,27 +129,25 @@ def p_for_inicializacion(p):
 
 def p_for_incremento(p):
     '''for_incremento : asignacion_simple
-                      | ID PLUS PLUS     # i++
-                      | ID MINUS MINUS   # i--
+                      | ID PLUS PLUS     
+                      | ID MINUS MINUS   
                       | empty'''
     p[0] = p[1]
 
 def p_asignacion_simple(p):
-    '''asignacion_simple : ID ASSIGN expresion''' # Sin PUNTO_COMA
+    '''asignacion_simple : ID ASSIGN expresion''' 
     p[0] = ('ASIGNACION', p[1], p[3])
 
 
-# --- 2. Tu Contribución: Estructuras de Datos (Estructura de Datos) ---
 
-# Contribución: [Tu_Nombre_Usuario_Git] (Estructura de Datos: Arrays/Arreglos)
 def p_estructura_datos(p):
     '''estructura_datos : array_declaration''' 
     p[0] = p[1]
 
-# Array initialization in C# style
+
 def p_array_declaration(p):
-    '''array_declaration : T_NEW tipo LBRACKET LITERAL_INT RBRACKET           # new int[10]
-                         | T_NEW tipo LBRACKET RBRACKET LBRACE expresion_lista RBRACE''' # new int[] {1, 2}
+    '''array_declaration : T_NEW tipo LBRACKET LITERAL_INT RBRACKET        
+                         | T_NEW tipo LBRACKET RBRACKET LBRACE expresion_lista RBRACE'''
     if len(p) == 6:
         p[0] = ('ARRAY_INIT_SIZE', p[2], p[4])
     else:
@@ -160,7 +163,7 @@ def p_expresion_lista(p):
 
 def p_error(p):
     print("Syntax error in input!")
-    # RECUERDA: Implementar la función de logging aquí.
+    
 
 parser = yacc.yacc()
 while True:

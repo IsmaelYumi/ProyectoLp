@@ -1,0 +1,163 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    ARROBA
+    CHAR
+    COMPARE
+    DIVIDE
+    DOT
+    DOUBLE
+    ELSE
+    EQUAL
+    IF
+    INT
+    MOD
+    NOTEQUAL
+    NUMBER
+    SEMICOLON
+    STRING
+    TERNARIO_C
+    TERNARIO_Q
+    THEN
+    TIMES
+    VARIABLE
+    WHILE
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> sentencias
+Rule 2     sentencias -> sentencia sentencias
+Rule 3     sentencias -> sentencia
+Rule 4     sentencias -> empty
+Rule 5     sentencia -> estructura_control
+Rule 6     sentencia -> asignacion
+Rule 7     sentencia -> declaracion_var
+Rule 8     sentencia -> expresion PUNTO_COMA
+Rule 9     bloque -> LBRACE sentencias RBRACE
+Rule 10    bloque -> sentencia
+Rule 11    empty -> <empty>
+Rule 12    expresion -> expresion PLUS expresion
+Rule 13    expresion -> expresion MINUS expresion
+Rule 14    expresion -> LPAREN expresion RPAREN
+Rule 15    expresion -> LITERAL_INT
+Rule 16    expresion -> LITERAL_FLOAT
+Rule 17    expresion -> ID
+Rule 18    condicion -> expresion relacional expresion
+Rule 19    condicion -> T_TRUE
+Rule 20    condicion -> T_FALSE
+Rule 21    relacional -> EQ
+Rule 22    relacional -> NE
+Rule 23    relacional -> LT
+Rule 24    relacional -> LE
+Rule 25    relacional -> GT
+Rule 26    relacional -> GE
+Rule 27    tipo -> T_INT
+Rule 28    tipo -> T_FLOAT
+Rule 29    tipo -> T_STRING
+Rule 30    tipo -> T_BOOL
+Rule 31    tipo -> ID
+Rule 32    declaracion_var -> tipo ID PUNTO_COMA
+Rule 33    asignacion -> ID ASSIGN expresion PUNTO_COMA
+Rule 34    estructura_control -> while_statement
+Rule 35    estructura_control -> if_statement
+Rule 36    estructura_control -> for_statement
+Rule 37    while_statement -> T_WHILE LPAREN condicion RPAREN bloque
+Rule 38    if_statement -> T_IF LPAREN condicion RPAREN bloque
+Rule 39    if_statement -> T_IF LPAREN condicion RPAREN bloque T_ELSE bloque
+Rule 40    for_statement -> T_FOR LPAREN for_inicializacion PUNTO_COMA condicion PUNTO_COMA for_incremento RPAREN bloque
+Rule 41    for_inicializacion -> declaracion_var
+Rule 42    for_inicializacion -> asignacion_simple
+Rule 43    for_inicializacion -> empty
+Rule 44    for_incremento -> asignacion_simple
+Rule 45    for_incremento -> ID PLUS PLUS
+Rule 46    for_incremento -> ID MINUS MINUS
+Rule 47    for_incremento -> empty
+Rule 48    asignacion_simple -> ID ASSIGN expresion
+Rule 49    estructura_datos -> array_declaration
+Rule 50    array_declaration -> T_NEW tipo LBRACKET LITERAL_INT RBRACKET
+Rule 51    array_declaration -> T_NEW tipo LBRACKET RBRACKET LBRACE expresion_lista RBRACE
+Rule 52    expresion_lista -> expresion
+Rule 53    expresion_lista -> expresion_lista COMMA expresion
+
+Terminals, with rules where they appear
+
+ARROBA               : 
+CHAR                 : 
+COMPARE              : 
+DIVIDE               : 
+DOT                  : 
+DOUBLE               : 
+ELSE                 : 
+EQUAL                : 
+ID                   : 17 31 32 33 45 46 48
+IF                   : 
+INT                  : 
+LBRACE               : 9 51
+LPAREN               : 14 37 38 39 40
+MINUS                : 13 46 46
+MOD                  : 
+NOTEQUAL             : 
+NUMBER               : 
+PLUS                 : 12 45 45
+RBRACE               : 9 51
+RPAREN               : 14 37 38 39 40
+SEMICOLON            : 
+STRING               : 
+TERNARIO_C           : 
+TERNARIO_Q           : 
+THEN                 : 
+TIMES                : 
+VARIABLE             : 
+WHILE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+ASSIGN               : 33 48
+COMMA                : 53
+EQ                   : 21
+GE                   : 26
+GT                   : 25
+LBRACKET             : 50 51
+LE                   : 24
+LITERAL_FLOAT        : 16
+LITERAL_INT          : 15 50
+LT                   : 23
+NE                   : 22
+PUNTO_COMA           : 8 32 33 40 40
+RBRACKET             : 50 51
+T_BOOL               : 30
+T_ELSE               : 39
+T_FALSE              : 20
+T_FLOAT              : 28
+T_FOR                : 40
+T_IF                 : 38 39
+T_INT                : 27
+T_NEW                : 50 51
+T_STRING             : 29
+T_TRUE               : 19
+T_WHILE              : 37
+array_declaration    : 49
+asignacion           : 6
+asignacion_simple    : 42 44
+bloque               : 37 38 39 39 40
+condicion            : 37 38 39 40
+declaracion_var      : 7 41
+empty                : 4 43 47
+estructura_control   : 5
+estructura_datos     : 
+expresion            : 8 12 12 13 13 14 18 18 33 48 52 53
+expresion_lista      : 51 53
+for_incremento       : 40
+for_inicializacion   : 40
+for_statement        : 36
+if_statement         : 35
+programa             : 0
+relacional           : 18
+sentencia            : 2 3 10
+sentencias           : 1 2 9
+tipo                 : 32 50 51
+while_statement      : 34
+
