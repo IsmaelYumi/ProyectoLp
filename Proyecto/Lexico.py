@@ -10,7 +10,9 @@ reserved = {
    'else' : 'ELSE',
    'while' : 'WHILE',
    'int': 'INT',
-   'double':'DOUBLE'
+   'double':'DOUBLE',
+   'char:': 'CHAR',
+   
 }
 tokens = (
    'LBRACE', 
