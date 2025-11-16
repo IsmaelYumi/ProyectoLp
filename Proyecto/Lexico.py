@@ -1,5 +1,4 @@
 import ply
-
 import ply.lex as lex
 from datetime import datetime
 
@@ -12,6 +11,12 @@ reserved = {
    'int': 'INT',
    'double':'DOUBLE',
    'char:': 'CHAR',
+   'Console': 'CONSOLE',
+   'using': 'USING',
+   'System': 'SYSTEM',
+   'class': 'CLASS',
+   'Program': 'PROGRAM',
+   'static' : 'STATIC',
    
 }
 tokens = (
@@ -36,6 +41,7 @@ tokens = (
    'TERNARIO_Q',   # ?
    'TERNARIO_C',   # :
    'STRING'       # "texto"
+   'COMA'
 )+tuple(reserved.values())
 
 # Regular expression rules for simple tokens
@@ -51,6 +57,7 @@ t_SEMICOLON  = r';'
 t_DOT        = r'\.'
 t_LBRACE     = r'\{'
 t_RBRACE     = r'\}'
+t_COMA      = r'\;'
 
 # Operador módulo %
 t_MOD = r'%'
@@ -65,13 +72,9 @@ t_NOTEQUAL = r'!='
 t_TERNARIO_Q = r'\?'
 t_TERNARIO_C = r':'
 
-nombre=input("Ingresa el nombre de github. ")
+#nombre=input("Ingresa el nombre de github. ")
 fecha_actual = datetime.now().strftime("%d-%m-%Y")
-algoritmo=input("Escribe el nombre del algoritmo")
-def leer(nombre_algo):
-    with open("./Algoritmos/"+nombre_algo+".cs", "r", encoding="utf-8") as f:
-        contenido = f.read()
-    return contenido
+
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value,'ID')    # Check for reserved words
@@ -94,7 +97,7 @@ def t_error(t):
     msg = f"Caracter no registrado: {t.value[0]!r} en linea {t.lexer.lineno}"
     print(msg)
     # Escribe (añade) al archivo de log de errores
-    with open("./Logs/"+"lexico-"+nombre+"-"+fecha_actual+".txt", "a+", encoding="utf-8") as f:
+    with open("./Logs/"+"lexico-"+lexer.nombre_archivo+"-"+fecha_actual+".txt", "a+", encoding="utf-8") as f:
         f.write(msg + "\n")
     t.lexer.skip(1)
 
@@ -107,20 +110,16 @@ def t_STRING(t):
 def t_COMMENT(t):
     r'//.*'
     pass  # Se ignoran los comentarios
-
-
-# Build the lexer
 lexer = lex.lex()
-# Test it out
-data=leer(algoritmo)
-# Give the lexer some input
-lexer.input(data)
-# Tokenize(cambios para)
-with open("./Logs/"+"lexico-"+nombre+"-"+fecha_actual+".txt", "w+", encoding="utf-8")as out:
-    while True:
-        tok = lexer.token()
-        if not tok:
-            break      
-        line = f"{tok.type}({tok.value}) en linea {tok.lineno} posicion {tok.lexpos}"
-        print(line)
-        out.write(line + "\n")
+def analizador_lexico(data, nombre):
+    lexer.input(data)
+    lexer.nombre_archivo=nombre
+    lexer.fecha_actual=fecha_actual
+    with open("./Logs/"+"lexico-"+lexer.nombre_archivo+"-"+lexer.fecha_actual+".txt", "w+", encoding="utf-8")as out:
+        while True:
+            tok = lexer.token()
+            if not tok:
+                break      
+            line = f"{tok.type}({tok.value}) en linea {tok.lineno} posicion {tok.lexpos}"
+            print(line)
+            out.write(line + "\n")
