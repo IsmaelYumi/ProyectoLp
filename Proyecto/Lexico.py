@@ -40,7 +40,7 @@ tokens = (
    'NOTEQUAL',     # !=
    'TERNARIO_Q',   # ?
    'TERNARIO_C',   # :
-   'STRING'       # "texto"
+   'STRING'  ,     # "texto"
    'COMA'
 )+tuple(reserved.values())
 
