@@ -1,11 +1,19 @@
 import ply.yacc as yacc
 from Lexico import tokens, lexer
 
+tabla = {}
+builtins = {"Console", "Convert", "Program", "System"}
+
 start = "program"
 
-# ===========================
-# PROGRAMA
-# ===========================
+def log_error(msg):
+    with open(f"./Logs/Semantico-{lexer.nombre_archivo}-{lexer.fecha_actual}.txt",
+              "a+", encoding="utf-8") as f:
+        f.write(msg + "\n")
+
+# =====================
+# MISMAS REGLAS QUE EL SINTÁCTICO
+# =====================
 def p_program(p):
     """program : using_list class_section"""
     pass
@@ -20,9 +28,6 @@ def p_using_section(p):
     """using_section : USING SYSTEM SEMICOLON"""
     pass
 
-# ===========================
-# CLASE
-# ===========================
 def p_class_section(p):
     """class_section : CLASS ID LBRACE class_body RBRACE"""
     pass
@@ -34,20 +39,20 @@ def p_class_body(p):
     pass
 
 def p_class_member(p):
-    """class_member : method
-                    | property"""
+    """class_member : property
+                    | method"""
     pass
 
-# ===========================
-# PROPIEDADES
-# ===========================
 def p_property(p):
     """property : type ID SEMICOLON"""
-    pass
+    nombre = p[2]
+    tipo = p[1]
 
-# ===========================
-# TIPOS
-# ===========================
+    if nombre in tabla:
+        log_error(f"Variable redeclarada: {nombre}")
+    else:
+        tabla[nombre] = tipo
+
 def p_type(p):
     """type : INT
             | DOUBLE
@@ -56,31 +61,22 @@ def p_type(p):
             | VOID"""
     p[0] = p[1]
 
-# ===========================
-# MÉTODOS
-# ===========================
 def p_method(p):
-    """
-    method : STATIC VOID ID LPAREN RPAREN LBRACE statements RBRACE
-           | STATIC VOID ID LPAREN parameter_list RPAREN LBRACE statements RBRACE
-    """
+    """method : STATIC VOID ID LPAREN RPAREN LBRACE statements RBRACE
+              | STATIC VOID ID LPAREN parameter_list RPAREN LBRACE statements RBRACE"""
     pass
 
-# ===========================
-# PARÁMETROS
-# ===========================
 def p_parameter_list(p):
     """parameter_list : param
                       | parameter_list COMMA param"""
     pass
 
 def p_param(p):
-    """param : type ID"""
+    """param : type ID
+             | STRINGTYPE LBRACKET RBRACKET ID"""
     pass
 
-# ===========================
-# STATEMENTS
-# ===========================
+
 def p_statements(p):
     """statements : statements statement
                   | statement
@@ -96,20 +92,23 @@ def p_statement(p):
                  | while_statement"""
     pass
 
-# ===========================
-# DECLARACIÓN / ASIGNACIÓN
-# ===========================
 def p_declaration(p):
     """declaration : type ID EQUAL expression"""
-    pass
+    nombre = p[2]
+    tipo = p[1]
+
+    if nombre in tabla:
+        log_error(f"Variable redeclarada: {nombre}")
+    else:
+        tabla[nombre] = tipo
 
 def p_assignment(p):
     """assignment : ID EQUAL expression"""
-    pass
+    nombre = p[1]
 
-# ===========================
-# IF / WHILE
-# ===========================
+    if nombre not in tabla and nombre not in builtins:
+        log_error(f"Variable usada sin declarar: {nombre}")
+
 def p_if_statement(p):
     """if_statement : IF LPAREN expression RPAREN LBRACE statements RBRACE
                     | IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE"""
@@ -119,19 +118,11 @@ def p_while_statement(p):
     """while_statement : WHILE LPAREN expression RPAREN LBRACE statements RBRACE"""
     pass
 
-# ===========================
-# CALLS
-# ===========================
 def p_method_call(p):
     """method_call : ID LPAREN args RPAREN
                    | ID DOT ID LPAREN args RPAREN
                    | CONSOLE DOT ID LPAREN args RPAREN"""
     pass
-
-def p_expression_method_call(p):
-    "expression : method_call"
-    pass
-
 
 def p_args(p):
     """args : expression
@@ -139,17 +130,22 @@ def p_args(p):
             | empty"""
     pass
 
-# ===========================
-# EXPRESIONES
-# ===========================
-def p_expression_group(p):
-    """expression : LPAREN expression RPAREN"""
-    p[0] = p[2]
-
 def p_expression_value(p):
     """expression : ID
                   | NUMBER
                   | STRING_LITERAL"""
+    if p.slice[1].type == "ID":
+        nombre = p[1]
+        if nombre not in tabla and nombre not in builtins:
+            log_error(f"Variable usada sin declarar: {nombre}")
+
+def p_expression_method_call(p):
+    """expression : method_call"""
+    pass
+
+
+def p_expression_group(p):
+    """expression : LPAREN expression RPAREN"""
     pass
 
 def p_expression_binop(p):
@@ -174,26 +170,14 @@ def p_expression_dot(p):
     """expression : expression DOT ID"""
     pass
 
-
-
-
-# ===========================
-# EMPTY
-# ===========================
 def p_empty(p):
     """empty :"""
     pass
 
-# ===========================
-# ERROR
-# ===========================
 def p_error(p):
-    mensaje = f"Syntax error cerca de: {p.value if p else 'EOF'}"
-    with open(f"./Logs/Sintactico-{lexer.nombre_archivo}-{lexer.fecha_actual}.txt",
-              "a+", encoding="utf-8") as f:
-        f.write(mensaje + "\n")
+    log_error(f"Error semántico cerca de: {p.value if p else 'EOF'}")
 
 parser = yacc.yacc(write_tables=False)
 
-def analizador_sintactico(data):
+def analizador_semantico(data):
     return parser.parse(data, lexer=lexer)
