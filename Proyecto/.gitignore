@@ -1,0 +1,40 @@
+# ============================
+# ARCHIVOS GENERADOS POR PYTHON
+# ============================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+
+# ============================
+# ARCHIVOS GENERADOS POR PLY
+# ============================
+parser.out
+parsetab.py
+parsetab.pyc
+
+# ============================
+# ARCHIVOS DE LOG DEL PROYECTO
+# ============================
+Logs/*.txt
+
+# ============================
+# ARCHIVOS GENERADOS POR IDE
+# ============================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ============================
+# ARCHIVOS DEL SISTEMA
+# ============================
+.DS_Store
+Thumbs.db
+
+# ============================
+# OTROS
+# ============================
+.env
+*.bak
