@@ -36,7 +36,6 @@ pip install ply
 ## 2️⃣ Ejecutar el archivo principal
 
 ```sh
-pip install ply
 
 python Proyecto/main.py
 
