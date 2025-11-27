@@ -184,7 +184,9 @@ mkdir Logs
 
 ## 👥 Autores
 
-- [Tu Nombre] - Desarrollo completo
+- [andrsvb] - Andres Bohorques
+- [danny-veliz] - Danny Veliz
+- [IsmaelYumi] - Ismael Yumipanta
 
 ## 📄 Licencia
 
