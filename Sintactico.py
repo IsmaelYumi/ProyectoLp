@@ -8,14 +8,15 @@ os.makedirs(LOG_DIR, exist_ok=True)
 import os
 
 start = "program"
-
+resultados_logs=[]
 #Funcion para logs
 def log(level, message):
     os.makedirs("./Logs", exist_ok=True)
-    ruta = f"./Logs/Sintactico-{lexer.nombre_archivo}-{lexer.fecha_actual}.txt"
+    ruta = os.path.join(LOG_DIR, f"Sintactico-{lexer.nombre_archivo}-{lexer.fecha_actual}.txt")  # Cambiar "lexico" por "Sintactico"
     linea= f" [{level}] {message}"
     with open(ruta, "a+", encoding="utf-8") as f:
         f.write(linea + "\n")
+    resultados_logs.append(linea)
 
 
 
@@ -40,7 +41,8 @@ def p_using_section(p):
 # CLASE
 # ===========================
 def p_class_section(p):
-    """class_section : CLASS ID LBRACE class_body RBRACE"""
+    """class_section : CLASS ID LBRACE class_body RBRACE
+                      | CLASS PROGRAM LBRACE class_body RBRACE"""
 
     log("OK","Expresion verificada , nombre de clase correcto:"f"{p[1]},")
     pass
@@ -212,6 +214,7 @@ def p_empty(p):
 # ERROR
 # ===========================
 def p_error(p):
+    os.makedirs("./Logs", exist_ok=True)  # Asegurar que existe la carpeta
     mensaje = f"Syntax error cerca de: {p.value if p else 'EOF'}"
     with open(f"./Logs/Sintactico-{lexer.nombre_archivo}-{lexer.fecha_actual}.txt",
               "a+", encoding="utf-8") as f:
@@ -225,6 +228,6 @@ parser = yacc.yacc(write_tables=False)
 def analizador_sintactico(data):
     try:
         resultado = parser.parse(data, lexer=lexer)
-        return ["✔ Análisis sintáctico completado sin errores."]
+        return resultados_logs
     except Exception as e:
         return [f"❌ Error sintáctico: {str(e)}"]
