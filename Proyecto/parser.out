@@ -2,104 +2,157 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
-    ARROBA
-    CHAR
-    CLASS
-    CONSOLE
-    DIVIDE
-    DOT
-    DOUBLE
-    INT
-    LBRACE
-    MINUS
-    MOD
-    NOTEQUAL
-    PLUS
     PROGRAM
-    RBRACE
-    SEMICOLON
-    STATIC
-    TERNARIO_C
-    TERNARIO_Q
-    THEN
-    TIMES
-    WHILE
 
 Grammar
 
 Rule 0     S' -> program
-Rule 1     program -> Inicio statements
-Rule 2     statements -> statement
-Rule 3     statements -> statements statement
-Rule 4     statement -> ID EQUAL valor
-Rule 5     statement -> IF LPAREN expression RPAREN statement
-Rule 6     statement -> IF LPAREN expression RPAREN statement ELSE statement
-Rule 7     expression -> VARIABLE COMPARE VARIABLE
-Rule 8     expression -> VARIABLE COMPARE valor
-Rule 9     valor -> NUMBER
-Rule 10    valor -> STRING
-Rule 11    Inicio -> USING SYSTEM COMA
+Rule 1     program -> using_list class_section
+Rule 2     using_list -> using_list using_section
+Rule 3     using_list -> using_section
+Rule 4     using_list -> empty
+Rule 5     using_section -> USING SYSTEM SEMICOLON
+Rule 6     class_section -> CLASS ID LBRACE class_body RBRACE
+Rule 7     class_body -> class_body class_member
+Rule 8     class_body -> class_member
+Rule 9     class_body -> empty
+Rule 10    class_member -> property
+Rule 11    class_member -> method
+Rule 12    property -> type ID SEMICOLON
+Rule 13    type -> INT
+Rule 14    type -> DOUBLE
+Rule 15    type -> CHAR
+Rule 16    type -> STRINGTYPE
+Rule 17    type -> VOID
+Rule 18    method -> STATIC VOID ID LPAREN RPAREN LBRACE statements RBRACE
+Rule 19    method -> STATIC VOID ID LPAREN parameter_list RPAREN LBRACE statements RBRACE
+Rule 20    parameter_list -> param
+Rule 21    parameter_list -> parameter_list COMMA param
+Rule 22    param -> type ID
+Rule 23    param -> STRINGTYPE LBRACKET RBRACKET ID
+Rule 24    statements -> statements statement
+Rule 25    statements -> statement
+Rule 26    statements -> empty
+Rule 27    statement -> declaration SEMICOLON
+Rule 28    statement -> assignment SEMICOLON
+Rule 29    statement -> method_call SEMICOLON
+Rule 30    statement -> expression SEMICOLON
+Rule 31    statement -> if_statement
+Rule 32    statement -> while_statement
+Rule 33    declaration -> type ID EQUAL expression
+Rule 34    assignment -> ID EQUAL expression
+Rule 35    if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE
+Rule 36    if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE
+Rule 37    while_statement -> WHILE LPAREN expression RPAREN LBRACE statements RBRACE
+Rule 38    method_call -> ID LPAREN args RPAREN
+Rule 39    method_call -> ID DOT ID LPAREN args RPAREN
+Rule 40    method_call -> CONSOLE DOT ID LPAREN args RPAREN
+Rule 41    args -> expression
+Rule 42    args -> args COMMA expression
+Rule 43    args -> empty
+Rule 44    expression -> ID
+Rule 45    expression -> NUMBER
+Rule 46    expression -> STRING_LITERAL
+Rule 47    expression -> method_call
+Rule 48    expression -> LPAREN expression RPAREN
+Rule 49    expression -> expression PLUS expression
+Rule 50    expression -> expression MINUS expression
+Rule 51    expression -> expression TIMES expression
+Rule 52    expression -> expression DIVIDE expression
+Rule 53    expression -> expression MOD expression
+Rule 54    expression -> expression COMPARE expression
+Rule 55    expression -> expression NOTEQUAL expression
+Rule 56    expression -> expression AND expression
+Rule 57    expression -> expression OR expression
+Rule 58    expression -> expression DOT ID
+Rule 59    empty -> <empty>
 
 Terminals, with rules where they appear
 
-ARROBA               : 
-CHAR                 : 
-CLASS                : 
-COMA                 : 11
-COMPARE              : 7 8
-CONSOLE              : 
-DIVIDE               : 
-DOT                  : 
-DOUBLE               : 
-ELSE                 : 6
-EQUAL                : 4
-ID                   : 4
-IF                   : 5 6
-INT                  : 
-LBRACE               : 
-LPAREN               : 5 6
-MINUS                : 
-MOD                  : 
-NOTEQUAL             : 
-NUMBER               : 9
-PLUS                 : 
+AND                  : 56
+CHAR                 : 15
+CLASS                : 6
+COMMA                : 21 42
+COMPARE              : 54
+CONSOLE              : 40
+DIVIDE               : 52
+DOT                  : 39 40 58
+DOUBLE               : 14
+ELSE                 : 36
+EQUAL                : 33 34
+ID                   : 6 12 18 19 22 23 33 34 38 39 39 40 44 58
+IF                   : 35 36
+INT                  : 13
+LBRACE               : 6 18 19 35 36 36 37
+LBRACKET             : 23
+LPAREN               : 18 19 35 36 37 38 39 40 48
+MINUS                : 50
+MOD                  : 53
+NOTEQUAL             : 55
+NUMBER               : 45
+OR                   : 57
+PLUS                 : 49
 PROGRAM              : 
-RBRACE               : 
-RPAREN               : 5 6
-SEMICOLON            : 
-STATIC               : 
-STRING               : 10
-SYSTEM               : 11
-TERNARIO_C           : 
-TERNARIO_Q           : 
-THEN                 : 
-TIMES                : 
-USING                : 11
-VARIABLE             : 7 7 8
-WHILE                : 
+RBRACE               : 6 18 19 35 36 36 37
+RBRACKET             : 23
+RPAREN               : 18 19 35 36 37 38 39 40 48
+SEMICOLON            : 5 12 27 28 29 30
+STATIC               : 18 19
+STRINGTYPE           : 16 23
+STRING_LITERAL       : 46
+SYSTEM               : 5
+TIMES                : 51
+USING                : 5
+VOID                 : 17 18 19
+WHILE                : 37
 error                : 
 
 Nonterminals, with rules where they appear
 
-Inicio               : 1
-expression           : 5 6
+args                 : 38 39 40 42
+assignment           : 28
+class_body           : 6 7
+class_member         : 7 8
+class_section        : 1
+declaration          : 27
+empty                : 4 9 26 43
+expression           : 30 33 34 35 36 37 41 42 48 49 49 50 50 51 51 52 52 53 53 54 54 55 55 56 56 57 57 58
+if_statement         : 31
+method               : 11
+method_call          : 29 47
+param                : 20 21
+parameter_list       : 19 21
 program              : 0
-statement            : 2 3 5 6 6
-statements           : 1 3
-valor                : 4 8
+property             : 10
+statement            : 24 25
+statements           : 18 19 24 35 36 36 37
+type                 : 12 22 33
+using_list           : 1 2
+using_section        : 2 3
+while_statement      : 32
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . program
-    (1) program -> . Inicio statements
-    (11) Inicio -> . USING SYSTEM COMA
+    (1) program -> . using_list class_section
+    (2) using_list -> . using_list using_section
+    (3) using_list -> . using_section
+    (4) using_list -> . empty
+    (5) using_section -> . USING SYSTEM SEMICOLON
+    (59) empty -> .
 
-    USING           shift and go to state 3
+  ! shift/reduce conflict for USING resolved as shift
+    USING           shift and go to state 5
+    CLASS           reduce using rule 59 (empty -> .)
+
+  ! USING           [ reduce using rule 59 (empty -> .) ]
 
     program                        shift and go to state 1
-    Inicio                         shift and go to state 2
+    using_list                     shift and go to state 2
+    using_section                  shift and go to state 3
+    empty                          shift and go to state 4
 
 state 1
 
@@ -109,234 +162,3250 @@ state 1
 
 state 2
 
-    (1) program -> Inicio . statements
-    (2) statements -> . statement
-    (3) statements -> . statements statement
-    (4) statement -> . ID EQUAL valor
-    (5) statement -> . IF LPAREN expression RPAREN statement
-    (6) statement -> . IF LPAREN expression RPAREN statement ELSE statement
+    (1) program -> using_list . class_section
+    (2) using_list -> using_list . using_section
+    (6) class_section -> . CLASS ID LBRACE class_body RBRACE
+    (5) using_section -> . USING SYSTEM SEMICOLON
 
-    ID              shift and go to state 6
-    IF              shift and go to state 7
+    CLASS           shift and go to state 8
+    USING           shift and go to state 5
 
-    statements                     shift and go to state 4
-    statement                      shift and go to state 5
+    class_section                  shift and go to state 6
+    using_section                  shift and go to state 7
 
 state 3
 
-    (11) Inicio -> USING . SYSTEM COMA
+    (3) using_list -> using_section .
 
-    SYSTEM          shift and go to state 8
+    CLASS           reduce using rule 3 (using_list -> using_section .)
+    USING           reduce using rule 3 (using_list -> using_section .)
 
 
 state 4
 
-    (1) program -> Inicio statements .
-    (3) statements -> statements . statement
-    (4) statement -> . ID EQUAL valor
-    (5) statement -> . IF LPAREN expression RPAREN statement
-    (6) statement -> . IF LPAREN expression RPAREN statement ELSE statement
+    (4) using_list -> empty .
 
-    $end            reduce using rule 1 (program -> Inicio statements .)
-    ID              shift and go to state 6
-    IF              shift and go to state 7
+    CLASS           reduce using rule 4 (using_list -> empty .)
+    USING           reduce using rule 4 (using_list -> empty .)
 
-    statement                      shift and go to state 9
 
 state 5
 
-    (2) statements -> statement .
+    (5) using_section -> USING . SYSTEM SEMICOLON
 
-    ID              reduce using rule 2 (statements -> statement .)
-    IF              reduce using rule 2 (statements -> statement .)
-    $end            reduce using rule 2 (statements -> statement .)
+    SYSTEM          shift and go to state 9
 
 
 state 6
 
-    (4) statement -> ID . EQUAL valor
+    (1) program -> using_list class_section .
 
-    EQUAL           shift and go to state 10
+    $end            reduce using rule 1 (program -> using_list class_section .)
 
 
 state 7
 
-    (5) statement -> IF . LPAREN expression RPAREN statement
-    (6) statement -> IF . LPAREN expression RPAREN statement ELSE statement
+    (2) using_list -> using_list using_section .
 
-    LPAREN          shift and go to state 11
+    CLASS           reduce using rule 2 (using_list -> using_list using_section .)
+    USING           reduce using rule 2 (using_list -> using_list using_section .)
 
 
 state 8
 
-    (11) Inicio -> USING SYSTEM . COMA
+    (6) class_section -> CLASS . ID LBRACE class_body RBRACE
 
-    COMA            shift and go to state 12
+    ID              shift and go to state 10
 
 
 state 9
 
-    (3) statements -> statements statement .
+    (5) using_section -> USING SYSTEM . SEMICOLON
 
-    ID              reduce using rule 3 (statements -> statements statement .)
-    IF              reduce using rule 3 (statements -> statements statement .)
-    $end            reduce using rule 3 (statements -> statements statement .)
+    SEMICOLON       shift and go to state 11
 
 
 state 10
 
-    (4) statement -> ID EQUAL . valor
-    (9) valor -> . NUMBER
-    (10) valor -> . STRING
+    (6) class_section -> CLASS ID . LBRACE class_body RBRACE
 
-    NUMBER          shift and go to state 14
-    STRING          shift and go to state 15
+    LBRACE          shift and go to state 12
 
-    valor                          shift and go to state 13
 
 state 11
 
-    (5) statement -> IF LPAREN . expression RPAREN statement
-    (6) statement -> IF LPAREN . expression RPAREN statement ELSE statement
-    (7) expression -> . VARIABLE COMPARE VARIABLE
-    (8) expression -> . VARIABLE COMPARE valor
+    (5) using_section -> USING SYSTEM SEMICOLON .
 
-    VARIABLE        shift and go to state 17
+    CLASS           reduce using rule 5 (using_section -> USING SYSTEM SEMICOLON .)
+    USING           reduce using rule 5 (using_section -> USING SYSTEM SEMICOLON .)
 
-    expression                     shift and go to state 16
 
 state 12
 
-    (11) Inicio -> USING SYSTEM COMA .
+    (6) class_section -> CLASS ID LBRACE . class_body RBRACE
+    (7) class_body -> . class_body class_member
+    (8) class_body -> . class_member
+    (9) class_body -> . empty
+    (10) class_member -> . property
+    (11) class_member -> . method
+    (59) empty -> .
+    (12) property -> . type ID SEMICOLON
+    (18) method -> . STATIC VOID ID LPAREN RPAREN LBRACE statements RBRACE
+    (19) method -> . STATIC VOID ID LPAREN parameter_list RPAREN LBRACE statements RBRACE
+    (13) type -> . INT
+    (14) type -> . DOUBLE
+    (15) type -> . CHAR
+    (16) type -> . STRINGTYPE
+    (17) type -> . VOID
 
-    ID              reduce using rule 11 (Inicio -> USING SYSTEM COMA .)
-    IF              reduce using rule 11 (Inicio -> USING SYSTEM COMA .)
+  ! shift/reduce conflict for STATIC resolved as shift
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for DOUBLE resolved as shift
+  ! shift/reduce conflict for CHAR resolved as shift
+  ! shift/reduce conflict for STRINGTYPE resolved as shift
+  ! shift/reduce conflict for VOID resolved as shift
+    RBRACE          reduce using rule 59 (empty -> .)
+    STATIC          shift and go to state 19
+    INT             shift and go to state 21
+    DOUBLE          shift and go to state 22
+    CHAR            shift and go to state 23
+    STRINGTYPE      shift and go to state 24
+    VOID            shift and go to state 20
 
+  ! STATIC          [ reduce using rule 59 (empty -> .) ]
+  ! INT             [ reduce using rule 59 (empty -> .) ]
+  ! DOUBLE          [ reduce using rule 59 (empty -> .) ]
+  ! CHAR            [ reduce using rule 59 (empty -> .) ]
+  ! STRINGTYPE      [ reduce using rule 59 (empty -> .) ]
+  ! VOID            [ reduce using rule 59 (empty -> .) ]
+
+    class_body                     shift and go to state 13
+    class_member                   shift and go to state 14
+    empty                          shift and go to state 15
+    property                       shift and go to state 16
+    method                         shift and go to state 17
+    type                           shift and go to state 18
 
 state 13
 
-    (4) statement -> ID EQUAL valor .
+    (6) class_section -> CLASS ID LBRACE class_body . RBRACE
+    (7) class_body -> class_body . class_member
+    (10) class_member -> . property
+    (11) class_member -> . method
+    (12) property -> . type ID SEMICOLON
+    (18) method -> . STATIC VOID ID LPAREN RPAREN LBRACE statements RBRACE
+    (19) method -> . STATIC VOID ID LPAREN parameter_list RPAREN LBRACE statements RBRACE
+    (13) type -> . INT
+    (14) type -> . DOUBLE
+    (15) type -> . CHAR
+    (16) type -> . STRINGTYPE
+    (17) type -> . VOID
 
-    ID              reduce using rule 4 (statement -> ID EQUAL valor .)
-    IF              reduce using rule 4 (statement -> ID EQUAL valor .)
-    $end            reduce using rule 4 (statement -> ID EQUAL valor .)
-    ELSE            reduce using rule 4 (statement -> ID EQUAL valor .)
+    RBRACE          shift and go to state 25
+    STATIC          shift and go to state 19
+    INT             shift and go to state 21
+    DOUBLE          shift and go to state 22
+    CHAR            shift and go to state 23
+    STRINGTYPE      shift and go to state 24
+    VOID            shift and go to state 20
 
+    class_member                   shift and go to state 26
+    property                       shift and go to state 16
+    method                         shift and go to state 17
+    type                           shift and go to state 18
 
 state 14
 
-    (9) valor -> NUMBER .
+    (8) class_body -> class_member .
 
-    ID              reduce using rule 9 (valor -> NUMBER .)
-    IF              reduce using rule 9 (valor -> NUMBER .)
-    $end            reduce using rule 9 (valor -> NUMBER .)
-    ELSE            reduce using rule 9 (valor -> NUMBER .)
-    RPAREN          reduce using rule 9 (valor -> NUMBER .)
+    RBRACE          reduce using rule 8 (class_body -> class_member .)
+    STATIC          reduce using rule 8 (class_body -> class_member .)
+    INT             reduce using rule 8 (class_body -> class_member .)
+    DOUBLE          reduce using rule 8 (class_body -> class_member .)
+    CHAR            reduce using rule 8 (class_body -> class_member .)
+    STRINGTYPE      reduce using rule 8 (class_body -> class_member .)
+    VOID            reduce using rule 8 (class_body -> class_member .)
 
 
 state 15
 
-    (10) valor -> STRING .
+    (9) class_body -> empty .
 
-    ID              reduce using rule 10 (valor -> STRING .)
-    IF              reduce using rule 10 (valor -> STRING .)
-    $end            reduce using rule 10 (valor -> STRING .)
-    ELSE            reduce using rule 10 (valor -> STRING .)
-    RPAREN          reduce using rule 10 (valor -> STRING .)
+    RBRACE          reduce using rule 9 (class_body -> empty .)
+    STATIC          reduce using rule 9 (class_body -> empty .)
+    INT             reduce using rule 9 (class_body -> empty .)
+    DOUBLE          reduce using rule 9 (class_body -> empty .)
+    CHAR            reduce using rule 9 (class_body -> empty .)
+    STRINGTYPE      reduce using rule 9 (class_body -> empty .)
+    VOID            reduce using rule 9 (class_body -> empty .)
 
 
 state 16
 
-    (5) statement -> IF LPAREN expression . RPAREN statement
-    (6) statement -> IF LPAREN expression . RPAREN statement ELSE statement
+    (10) class_member -> property .
 
-    RPAREN          shift and go to state 18
+    RBRACE          reduce using rule 10 (class_member -> property .)
+    STATIC          reduce using rule 10 (class_member -> property .)
+    INT             reduce using rule 10 (class_member -> property .)
+    DOUBLE          reduce using rule 10 (class_member -> property .)
+    CHAR            reduce using rule 10 (class_member -> property .)
+    STRINGTYPE      reduce using rule 10 (class_member -> property .)
+    VOID            reduce using rule 10 (class_member -> property .)
 
 
 state 17
 
-    (7) expression -> VARIABLE . COMPARE VARIABLE
-    (8) expression -> VARIABLE . COMPARE valor
+    (11) class_member -> method .
 
-    COMPARE         shift and go to state 19
+    RBRACE          reduce using rule 11 (class_member -> method .)
+    STATIC          reduce using rule 11 (class_member -> method .)
+    INT             reduce using rule 11 (class_member -> method .)
+    DOUBLE          reduce using rule 11 (class_member -> method .)
+    CHAR            reduce using rule 11 (class_member -> method .)
+    STRINGTYPE      reduce using rule 11 (class_member -> method .)
+    VOID            reduce using rule 11 (class_member -> method .)
 
 
 state 18
 
-    (5) statement -> IF LPAREN expression RPAREN . statement
-    (6) statement -> IF LPAREN expression RPAREN . statement ELSE statement
-    (4) statement -> . ID EQUAL valor
-    (5) statement -> . IF LPAREN expression RPAREN statement
-    (6) statement -> . IF LPAREN expression RPAREN statement ELSE statement
+    (12) property -> type . ID SEMICOLON
 
-    ID              shift and go to state 6
-    IF              shift and go to state 7
+    ID              shift and go to state 27
 
-    statement                      shift and go to state 20
 
 state 19
 
-    (7) expression -> VARIABLE COMPARE . VARIABLE
-    (8) expression -> VARIABLE COMPARE . valor
-    (9) valor -> . NUMBER
-    (10) valor -> . STRING
+    (18) method -> STATIC . VOID ID LPAREN RPAREN LBRACE statements RBRACE
+    (19) method -> STATIC . VOID ID LPAREN parameter_list RPAREN LBRACE statements RBRACE
 
-    VARIABLE        shift and go to state 21
-    NUMBER          shift and go to state 14
-    STRING          shift and go to state 15
+    VOID            shift and go to state 28
 
-    valor                          shift and go to state 22
 
 state 20
 
-    (5) statement -> IF LPAREN expression RPAREN statement .
-    (6) statement -> IF LPAREN expression RPAREN statement . ELSE statement
+    (17) type -> VOID .
 
-  ! shift/reduce conflict for ELSE resolved as shift
-    ID              reduce using rule 5 (statement -> IF LPAREN expression RPAREN statement .)
-    IF              reduce using rule 5 (statement -> IF LPAREN expression RPAREN statement .)
-    $end            reduce using rule 5 (statement -> IF LPAREN expression RPAREN statement .)
-    ELSE            shift and go to state 23
-
-  ! ELSE            [ reduce using rule 5 (statement -> IF LPAREN expression RPAREN statement .) ]
+    ID              reduce using rule 17 (type -> VOID .)
 
 
 state 21
 
-    (7) expression -> VARIABLE COMPARE VARIABLE .
+    (13) type -> INT .
 
-    RPAREN          reduce using rule 7 (expression -> VARIABLE COMPARE VARIABLE .)
+    ID              reduce using rule 13 (type -> INT .)
 
 
 state 22
 
-    (8) expression -> VARIABLE COMPARE valor .
+    (14) type -> DOUBLE .
 
-    RPAREN          reduce using rule 8 (expression -> VARIABLE COMPARE valor .)
+    ID              reduce using rule 14 (type -> DOUBLE .)
 
 
 state 23
 
-    (6) statement -> IF LPAREN expression RPAREN statement ELSE . statement
-    (4) statement -> . ID EQUAL valor
-    (5) statement -> . IF LPAREN expression RPAREN statement
-    (6) statement -> . IF LPAREN expression RPAREN statement ELSE statement
+    (15) type -> CHAR .
 
-    ID              shift and go to state 6
-    IF              shift and go to state 7
+    ID              reduce using rule 15 (type -> CHAR .)
 
-    statement                      shift and go to state 24
 
 state 24
 
-    (6) statement -> IF LPAREN expression RPAREN statement ELSE statement .
+    (16) type -> STRINGTYPE .
 
-    ID              reduce using rule 6 (statement -> IF LPAREN expression RPAREN statement ELSE statement .)
-    IF              reduce using rule 6 (statement -> IF LPAREN expression RPAREN statement ELSE statement .)
-    $end            reduce using rule 6 (statement -> IF LPAREN expression RPAREN statement ELSE statement .)
-    ELSE            reduce using rule 6 (statement -> IF LPAREN expression RPAREN statement ELSE statement .)
+    ID              reduce using rule 16 (type -> STRINGTYPE .)
+
+
+state 25
+
+    (6) class_section -> CLASS ID LBRACE class_body RBRACE .
+
+    $end            reduce using rule 6 (class_section -> CLASS ID LBRACE class_body RBRACE .)
+
+
+state 26
+
+    (7) class_body -> class_body class_member .
+
+    RBRACE          reduce using rule 7 (class_body -> class_body class_member .)
+    STATIC          reduce using rule 7 (class_body -> class_body class_member .)
+    INT             reduce using rule 7 (class_body -> class_body class_member .)
+    DOUBLE          reduce using rule 7 (class_body -> class_body class_member .)
+    CHAR            reduce using rule 7 (class_body -> class_body class_member .)
+    STRINGTYPE      reduce using rule 7 (class_body -> class_body class_member .)
+    VOID            reduce using rule 7 (class_body -> class_body class_member .)
+
+
+state 27
+
+    (12) property -> type ID . SEMICOLON
+
+    SEMICOLON       shift and go to state 29
+
+
+state 28
+
+    (18) method -> STATIC VOID . ID LPAREN RPAREN LBRACE statements RBRACE
+    (19) method -> STATIC VOID . ID LPAREN parameter_list RPAREN LBRACE statements RBRACE
+
+    ID              shift and go to state 30
+
+
+state 29
+
+    (12) property -> type ID SEMICOLON .
+
+    RBRACE          reduce using rule 12 (property -> type ID SEMICOLON .)
+    STATIC          reduce using rule 12 (property -> type ID SEMICOLON .)
+    INT             reduce using rule 12 (property -> type ID SEMICOLON .)
+    DOUBLE          reduce using rule 12 (property -> type ID SEMICOLON .)
+    CHAR            reduce using rule 12 (property -> type ID SEMICOLON .)
+    STRINGTYPE      reduce using rule 12 (property -> type ID SEMICOLON .)
+    VOID            reduce using rule 12 (property -> type ID SEMICOLON .)
+
+
+state 30
+
+    (18) method -> STATIC VOID ID . LPAREN RPAREN LBRACE statements RBRACE
+    (19) method -> STATIC VOID ID . LPAREN parameter_list RPAREN LBRACE statements RBRACE
+
+    LPAREN          shift and go to state 31
+
+
+state 31
+
+    (18) method -> STATIC VOID ID LPAREN . RPAREN LBRACE statements RBRACE
+    (19) method -> STATIC VOID ID LPAREN . parameter_list RPAREN LBRACE statements RBRACE
+    (20) parameter_list -> . param
+    (21) parameter_list -> . parameter_list COMMA param
+    (22) param -> . type ID
+    (23) param -> . STRINGTYPE LBRACKET RBRACKET ID
+    (13) type -> . INT
+    (14) type -> . DOUBLE
+    (15) type -> . CHAR
+    (16) type -> . STRINGTYPE
+    (17) type -> . VOID
+
+    RPAREN          shift and go to state 32
+    STRINGTYPE      shift and go to state 36
+    INT             shift and go to state 21
+    DOUBLE          shift and go to state 22
+    CHAR            shift and go to state 23
+    VOID            shift and go to state 20
+
+    parameter_list                 shift and go to state 33
+    param                          shift and go to state 34
+    type                           shift and go to state 35
+
+state 32
+
+    (18) method -> STATIC VOID ID LPAREN RPAREN . LBRACE statements RBRACE
+
+    LBRACE          shift and go to state 37
+
+
+state 33
+
+    (19) method -> STATIC VOID ID LPAREN parameter_list . RPAREN LBRACE statements RBRACE
+    (21) parameter_list -> parameter_list . COMMA param
+
+    RPAREN          shift and go to state 38
+    COMMA           shift and go to state 39
+
+
+state 34
+
+    (20) parameter_list -> param .
+
+    RPAREN          reduce using rule 20 (parameter_list -> param .)
+    COMMA           reduce using rule 20 (parameter_list -> param .)
+
+
+state 35
+
+    (22) param -> type . ID
+
+    ID              shift and go to state 40
+
+
+state 36
+
+    (23) param -> STRINGTYPE . LBRACKET RBRACKET ID
+    (16) type -> STRINGTYPE .
+
+    LBRACKET        shift and go to state 41
+    ID              reduce using rule 16 (type -> STRINGTYPE .)
+
+
+state 37
+
+    (18) method -> STATIC VOID ID LPAREN RPAREN LBRACE . statements RBRACE
+    (24) statements -> . statements statement
+    (25) statements -> . statement
+    (26) statements -> . empty
+    (27) statement -> . declaration SEMICOLON
+    (28) statement -> . assignment SEMICOLON
+    (29) statement -> . method_call SEMICOLON
+    (30) statement -> . expression SEMICOLON
+    (31) statement -> . if_statement
+    (32) statement -> . while_statement
+    (59) empty -> .
+    (33) declaration -> . type ID EQUAL expression
+    (34) assignment -> . ID EQUAL expression
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (35) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE
+    (36) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE
+    (37) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statements RBRACE
+    (13) type -> . INT
+    (14) type -> . DOUBLE
+    (15) type -> . CHAR
+    (16) type -> . STRINGTYPE
+    (17) type -> . VOID
+
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for CONSOLE resolved as shift
+  ! shift/reduce conflict for NUMBER resolved as shift
+  ! shift/reduce conflict for STRING_LITERAL resolved as shift
+  ! shift/reduce conflict for LPAREN resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for DOUBLE resolved as shift
+  ! shift/reduce conflict for CHAR resolved as shift
+  ! shift/reduce conflict for STRINGTYPE resolved as shift
+  ! shift/reduce conflict for VOID resolved as shift
+    RBRACE          reduce using rule 59 (empty -> .)
+    ID              shift and go to state 42
+    CONSOLE         shift and go to state 54
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    IF              shift and go to state 57
+    WHILE           shift and go to state 58
+    INT             shift and go to state 21
+    DOUBLE          shift and go to state 22
+    CHAR            shift and go to state 23
+    STRINGTYPE      shift and go to state 24
+    VOID            shift and go to state 20
+
+  ! ID              [ reduce using rule 59 (empty -> .) ]
+  ! CONSOLE         [ reduce using rule 59 (empty -> .) ]
+  ! NUMBER          [ reduce using rule 59 (empty -> .) ]
+  ! STRING_LITERAL  [ reduce using rule 59 (empty -> .) ]
+  ! LPAREN          [ reduce using rule 59 (empty -> .) ]
+  ! IF              [ reduce using rule 59 (empty -> .) ]
+  ! WHILE           [ reduce using rule 59 (empty -> .) ]
+  ! INT             [ reduce using rule 59 (empty -> .) ]
+  ! DOUBLE          [ reduce using rule 59 (empty -> .) ]
+  ! CHAR            [ reduce using rule 59 (empty -> .) ]
+  ! STRINGTYPE      [ reduce using rule 59 (empty -> .) ]
+  ! VOID            [ reduce using rule 59 (empty -> .) ]
+
+    statements                     shift and go to state 44
+    statement                      shift and go to state 45
+    empty                          shift and go to state 46
+    declaration                    shift and go to state 47
+    assignment                     shift and go to state 48
+    method_call                    shift and go to state 49
+    expression                     shift and go to state 50
+    if_statement                   shift and go to state 51
+    while_statement                shift and go to state 52
+    type                           shift and go to state 53
+
+state 38
+
+    (19) method -> STATIC VOID ID LPAREN parameter_list RPAREN . LBRACE statements RBRACE
+
+    LBRACE          shift and go to state 59
+
+
+state 39
+
+    (21) parameter_list -> parameter_list COMMA . param
+    (22) param -> . type ID
+    (23) param -> . STRINGTYPE LBRACKET RBRACKET ID
+    (13) type -> . INT
+    (14) type -> . DOUBLE
+    (15) type -> . CHAR
+    (16) type -> . STRINGTYPE
+    (17) type -> . VOID
+
+    STRINGTYPE      shift and go to state 36
+    INT             shift and go to state 21
+    DOUBLE          shift and go to state 22
+    CHAR            shift and go to state 23
+    VOID            shift and go to state 20
+
+    param                          shift and go to state 60
+    type                           shift and go to state 35
+
+state 40
+
+    (22) param -> type ID .
+
+    RPAREN          reduce using rule 22 (param -> type ID .)
+    COMMA           reduce using rule 22 (param -> type ID .)
+
+
+state 41
+
+    (23) param -> STRINGTYPE LBRACKET . RBRACKET ID
+
+    RBRACKET        shift and go to state 61
+
+
+state 42
+
+    (34) assignment -> ID . EQUAL expression
+    (38) method_call -> ID . LPAREN args RPAREN
+    (39) method_call -> ID . DOT ID LPAREN args RPAREN
+    (44) expression -> ID .
+
+  ! shift/reduce conflict for DOT resolved as shift
+    EQUAL           shift and go to state 62
+    LPAREN          shift and go to state 63
+    DOT             shift and go to state 64
+    SEMICOLON       reduce using rule 44 (expression -> ID .)
+    PLUS            reduce using rule 44 (expression -> ID .)
+    MINUS           reduce using rule 44 (expression -> ID .)
+    TIMES           reduce using rule 44 (expression -> ID .)
+    DIVIDE          reduce using rule 44 (expression -> ID .)
+    MOD             reduce using rule 44 (expression -> ID .)
+    COMPARE         reduce using rule 44 (expression -> ID .)
+    NOTEQUAL        reduce using rule 44 (expression -> ID .)
+    AND             reduce using rule 44 (expression -> ID .)
+    OR              reduce using rule 44 (expression -> ID .)
+
+  ! DOT             [ reduce using rule 44 (expression -> ID .) ]
+
+
+state 43
+
+    (48) expression -> LPAREN . expression RPAREN
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    CONSOLE         shift and go to state 54
+
+    expression                     shift and go to state 65
+    method_call                    shift and go to state 67
+
+state 44
+
+    (18) method -> STATIC VOID ID LPAREN RPAREN LBRACE statements . RBRACE
+    (24) statements -> statements . statement
+    (27) statement -> . declaration SEMICOLON
+    (28) statement -> . assignment SEMICOLON
+    (29) statement -> . method_call SEMICOLON
+    (30) statement -> . expression SEMICOLON
+    (31) statement -> . if_statement
+    (32) statement -> . while_statement
+    (33) declaration -> . type ID EQUAL expression
+    (34) assignment -> . ID EQUAL expression
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (35) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE
+    (36) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE
+    (37) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statements RBRACE
+    (13) type -> . INT
+    (14) type -> . DOUBLE
+    (15) type -> . CHAR
+    (16) type -> . STRINGTYPE
+    (17) type -> . VOID
+
+    RBRACE          shift and go to state 68
+    ID              shift and go to state 42
+    CONSOLE         shift and go to state 54
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    IF              shift and go to state 57
+    WHILE           shift and go to state 58
+    INT             shift and go to state 21
+    DOUBLE          shift and go to state 22
+    CHAR            shift and go to state 23
+    STRINGTYPE      shift and go to state 24
+    VOID            shift and go to state 20
+
+    statement                      shift and go to state 69
+    declaration                    shift and go to state 47
+    assignment                     shift and go to state 48
+    method_call                    shift and go to state 49
+    expression                     shift and go to state 50
+    if_statement                   shift and go to state 51
+    while_statement                shift and go to state 52
+    type                           shift and go to state 53
+
+state 45
+
+    (25) statements -> statement .
+
+    RBRACE          reduce using rule 25 (statements -> statement .)
+    ID              reduce using rule 25 (statements -> statement .)
+    CONSOLE         reduce using rule 25 (statements -> statement .)
+    NUMBER          reduce using rule 25 (statements -> statement .)
+    STRING_LITERAL  reduce using rule 25 (statements -> statement .)
+    LPAREN          reduce using rule 25 (statements -> statement .)
+    IF              reduce using rule 25 (statements -> statement .)
+    WHILE           reduce using rule 25 (statements -> statement .)
+    INT             reduce using rule 25 (statements -> statement .)
+    DOUBLE          reduce using rule 25 (statements -> statement .)
+    CHAR            reduce using rule 25 (statements -> statement .)
+    STRINGTYPE      reduce using rule 25 (statements -> statement .)
+    VOID            reduce using rule 25 (statements -> statement .)
+
+
+state 46
+
+    (26) statements -> empty .
+
+    RBRACE          reduce using rule 26 (statements -> empty .)
+    ID              reduce using rule 26 (statements -> empty .)
+    CONSOLE         reduce using rule 26 (statements -> empty .)
+    NUMBER          reduce using rule 26 (statements -> empty .)
+    STRING_LITERAL  reduce using rule 26 (statements -> empty .)
+    LPAREN          reduce using rule 26 (statements -> empty .)
+    IF              reduce using rule 26 (statements -> empty .)
+    WHILE           reduce using rule 26 (statements -> empty .)
+    INT             reduce using rule 26 (statements -> empty .)
+    DOUBLE          reduce using rule 26 (statements -> empty .)
+    CHAR            reduce using rule 26 (statements -> empty .)
+    STRINGTYPE      reduce using rule 26 (statements -> empty .)
+    VOID            reduce using rule 26 (statements -> empty .)
+
+
+state 47
+
+    (27) statement -> declaration . SEMICOLON
+
+    SEMICOLON       shift and go to state 70
+
+
+state 48
+
+    (28) statement -> assignment . SEMICOLON
+
+    SEMICOLON       shift and go to state 71
+
+
+state 49
+
+    (29) statement -> method_call . SEMICOLON
+    (47) expression -> method_call .
+
+  ! shift/reduce conflict for SEMICOLON resolved as shift
+    SEMICOLON       shift and go to state 72
+    PLUS            reduce using rule 47 (expression -> method_call .)
+    MINUS           reduce using rule 47 (expression -> method_call .)
+    TIMES           reduce using rule 47 (expression -> method_call .)
+    DIVIDE          reduce using rule 47 (expression -> method_call .)
+    MOD             reduce using rule 47 (expression -> method_call .)
+    COMPARE         reduce using rule 47 (expression -> method_call .)
+    NOTEQUAL        reduce using rule 47 (expression -> method_call .)
+    AND             reduce using rule 47 (expression -> method_call .)
+    OR              reduce using rule 47 (expression -> method_call .)
+    DOT             reduce using rule 47 (expression -> method_call .)
+
+  ! SEMICOLON       [ reduce using rule 47 (expression -> method_call .) ]
+
+
+state 50
+
+    (30) statement -> expression . SEMICOLON
+    (49) expression -> expression . PLUS expression
+    (50) expression -> expression . MINUS expression
+    (51) expression -> expression . TIMES expression
+    (52) expression -> expression . DIVIDE expression
+    (53) expression -> expression . MOD expression
+    (54) expression -> expression . COMPARE expression
+    (55) expression -> expression . NOTEQUAL expression
+    (56) expression -> expression . AND expression
+    (57) expression -> expression . OR expression
+    (58) expression -> expression . DOT ID
+
+    SEMICOLON       shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 75
+    TIMES           shift and go to state 76
+    DIVIDE          shift and go to state 77
+    MOD             shift and go to state 78
+    COMPARE         shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    AND             shift and go to state 81
+    OR              shift and go to state 82
+    DOT             shift and go to state 83
+
+
+state 51
+
+    (31) statement -> if_statement .
+
+    RBRACE          reduce using rule 31 (statement -> if_statement .)
+    ID              reduce using rule 31 (statement -> if_statement .)
+    CONSOLE         reduce using rule 31 (statement -> if_statement .)
+    NUMBER          reduce using rule 31 (statement -> if_statement .)
+    STRING_LITERAL  reduce using rule 31 (statement -> if_statement .)
+    LPAREN          reduce using rule 31 (statement -> if_statement .)
+    IF              reduce using rule 31 (statement -> if_statement .)
+    WHILE           reduce using rule 31 (statement -> if_statement .)
+    INT             reduce using rule 31 (statement -> if_statement .)
+    DOUBLE          reduce using rule 31 (statement -> if_statement .)
+    CHAR            reduce using rule 31 (statement -> if_statement .)
+    STRINGTYPE      reduce using rule 31 (statement -> if_statement .)
+    VOID            reduce using rule 31 (statement -> if_statement .)
+
+
+state 52
+
+    (32) statement -> while_statement .
+
+    RBRACE          reduce using rule 32 (statement -> while_statement .)
+    ID              reduce using rule 32 (statement -> while_statement .)
+    CONSOLE         reduce using rule 32 (statement -> while_statement .)
+    NUMBER          reduce using rule 32 (statement -> while_statement .)
+    STRING_LITERAL  reduce using rule 32 (statement -> while_statement .)
+    LPAREN          reduce using rule 32 (statement -> while_statement .)
+    IF              reduce using rule 32 (statement -> while_statement .)
+    WHILE           reduce using rule 32 (statement -> while_statement .)
+    INT             reduce using rule 32 (statement -> while_statement .)
+    DOUBLE          reduce using rule 32 (statement -> while_statement .)
+    CHAR            reduce using rule 32 (statement -> while_statement .)
+    STRINGTYPE      reduce using rule 32 (statement -> while_statement .)
+    VOID            reduce using rule 32 (statement -> while_statement .)
+
+
+state 53
+
+    (33) declaration -> type . ID EQUAL expression
+
+    ID              shift and go to state 84
+
+
+state 54
+
+    (40) method_call -> CONSOLE . DOT ID LPAREN args RPAREN
+
+    DOT             shift and go to state 85
+
+
+state 55
+
+    (45) expression -> NUMBER .
+
+    SEMICOLON       reduce using rule 45 (expression -> NUMBER .)
+    PLUS            reduce using rule 45 (expression -> NUMBER .)
+    MINUS           reduce using rule 45 (expression -> NUMBER .)
+    TIMES           reduce using rule 45 (expression -> NUMBER .)
+    DIVIDE          reduce using rule 45 (expression -> NUMBER .)
+    MOD             reduce using rule 45 (expression -> NUMBER .)
+    COMPARE         reduce using rule 45 (expression -> NUMBER .)
+    NOTEQUAL        reduce using rule 45 (expression -> NUMBER .)
+    AND             reduce using rule 45 (expression -> NUMBER .)
+    OR              reduce using rule 45 (expression -> NUMBER .)
+    DOT             reduce using rule 45 (expression -> NUMBER .)
+    RPAREN          reduce using rule 45 (expression -> NUMBER .)
+    COMMA           reduce using rule 45 (expression -> NUMBER .)
+
+
+state 56
+
+    (46) expression -> STRING_LITERAL .
+
+    SEMICOLON       reduce using rule 46 (expression -> STRING_LITERAL .)
+    PLUS            reduce using rule 46 (expression -> STRING_LITERAL .)
+    MINUS           reduce using rule 46 (expression -> STRING_LITERAL .)
+    TIMES           reduce using rule 46 (expression -> STRING_LITERAL .)
+    DIVIDE          reduce using rule 46 (expression -> STRING_LITERAL .)
+    MOD             reduce using rule 46 (expression -> STRING_LITERAL .)
+    COMPARE         reduce using rule 46 (expression -> STRING_LITERAL .)
+    NOTEQUAL        reduce using rule 46 (expression -> STRING_LITERAL .)
+    AND             reduce using rule 46 (expression -> STRING_LITERAL .)
+    OR              reduce using rule 46 (expression -> STRING_LITERAL .)
+    DOT             reduce using rule 46 (expression -> STRING_LITERAL .)
+    RPAREN          reduce using rule 46 (expression -> STRING_LITERAL .)
+    COMMA           reduce using rule 46 (expression -> STRING_LITERAL .)
+
+
+state 57
+
+    (35) if_statement -> IF . LPAREN expression RPAREN LBRACE statements RBRACE
+    (36) if_statement -> IF . LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE
+
+    LPAREN          shift and go to state 86
+
+
+state 58
+
+    (37) while_statement -> WHILE . LPAREN expression RPAREN LBRACE statements RBRACE
+
+    LPAREN          shift and go to state 87
+
+
+state 59
+
+    (19) method -> STATIC VOID ID LPAREN parameter_list RPAREN LBRACE . statements RBRACE
+    (24) statements -> . statements statement
+    (25) statements -> . statement
+    (26) statements -> . empty
+    (27) statement -> . declaration SEMICOLON
+    (28) statement -> . assignment SEMICOLON
+    (29) statement -> . method_call SEMICOLON
+    (30) statement -> . expression SEMICOLON
+    (31) statement -> . if_statement
+    (32) statement -> . while_statement
+    (59) empty -> .
+    (33) declaration -> . type ID EQUAL expression
+    (34) assignment -> . ID EQUAL expression
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (35) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE
+    (36) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE
+    (37) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statements RBRACE
+    (13) type -> . INT
+    (14) type -> . DOUBLE
+    (15) type -> . CHAR
+    (16) type -> . STRINGTYPE
+    (17) type -> . VOID
+
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for CONSOLE resolved as shift
+  ! shift/reduce conflict for NUMBER resolved as shift
+  ! shift/reduce conflict for STRING_LITERAL resolved as shift
+  ! shift/reduce conflict for LPAREN resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for DOUBLE resolved as shift
+  ! shift/reduce conflict for CHAR resolved as shift
+  ! shift/reduce conflict for STRINGTYPE resolved as shift
+  ! shift/reduce conflict for VOID resolved as shift
+    RBRACE          reduce using rule 59 (empty -> .)
+    ID              shift and go to state 42
+    CONSOLE         shift and go to state 54
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    IF              shift and go to state 57
+    WHILE           shift and go to state 58
+    INT             shift and go to state 21
+    DOUBLE          shift and go to state 22
+    CHAR            shift and go to state 23
+    STRINGTYPE      shift and go to state 24
+    VOID            shift and go to state 20
+
+  ! ID              [ reduce using rule 59 (empty -> .) ]
+  ! CONSOLE         [ reduce using rule 59 (empty -> .) ]
+  ! NUMBER          [ reduce using rule 59 (empty -> .) ]
+  ! STRING_LITERAL  [ reduce using rule 59 (empty -> .) ]
+  ! LPAREN          [ reduce using rule 59 (empty -> .) ]
+  ! IF              [ reduce using rule 59 (empty -> .) ]
+  ! WHILE           [ reduce using rule 59 (empty -> .) ]
+  ! INT             [ reduce using rule 59 (empty -> .) ]
+  ! DOUBLE          [ reduce using rule 59 (empty -> .) ]
+  ! CHAR            [ reduce using rule 59 (empty -> .) ]
+  ! STRINGTYPE      [ reduce using rule 59 (empty -> .) ]
+  ! VOID            [ reduce using rule 59 (empty -> .) ]
+
+    statements                     shift and go to state 88
+    statement                      shift and go to state 45
+    empty                          shift and go to state 46
+    declaration                    shift and go to state 47
+    assignment                     shift and go to state 48
+    method_call                    shift and go to state 49
+    expression                     shift and go to state 50
+    if_statement                   shift and go to state 51
+    while_statement                shift and go to state 52
+    type                           shift and go to state 53
+
+state 60
+
+    (21) parameter_list -> parameter_list COMMA param .
+
+    RPAREN          reduce using rule 21 (parameter_list -> parameter_list COMMA param .)
+    COMMA           reduce using rule 21 (parameter_list -> parameter_list COMMA param .)
+
+
+state 61
+
+    (23) param -> STRINGTYPE LBRACKET RBRACKET . ID
+
+    ID              shift and go to state 89
+
+
+state 62
+
+    (34) assignment -> ID EQUAL . expression
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    CONSOLE         shift and go to state 54
+
+    expression                     shift and go to state 90
+    method_call                    shift and go to state 67
+
+state 63
+
+    (38) method_call -> ID LPAREN . args RPAREN
+    (41) args -> . expression
+    (42) args -> . args COMMA expression
+    (43) args -> . empty
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (59) empty -> .
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    RPAREN          reduce using rule 59 (empty -> .)
+    COMMA           reduce using rule 59 (empty -> .)
+    CONSOLE         shift and go to state 54
+
+    args                           shift and go to state 91
+    expression                     shift and go to state 92
+    empty                          shift and go to state 93
+    method_call                    shift and go to state 67
+
+state 64
+
+    (39) method_call -> ID DOT . ID LPAREN args RPAREN
+
+    ID              shift and go to state 94
+
+
+state 65
+
+    (48) expression -> LPAREN expression . RPAREN
+    (49) expression -> expression . PLUS expression
+    (50) expression -> expression . MINUS expression
+    (51) expression -> expression . TIMES expression
+    (52) expression -> expression . DIVIDE expression
+    (53) expression -> expression . MOD expression
+    (54) expression -> expression . COMPARE expression
+    (55) expression -> expression . NOTEQUAL expression
+    (56) expression -> expression . AND expression
+    (57) expression -> expression . OR expression
+    (58) expression -> expression . DOT ID
+
+    RPAREN          shift and go to state 95
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 75
+    TIMES           shift and go to state 76
+    DIVIDE          shift and go to state 77
+    MOD             shift and go to state 78
+    COMPARE         shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    AND             shift and go to state 81
+    OR              shift and go to state 82
+    DOT             shift and go to state 83
+
+
+state 66
+
+    (44) expression -> ID .
+    (38) method_call -> ID . LPAREN args RPAREN
+    (39) method_call -> ID . DOT ID LPAREN args RPAREN
+
+  ! shift/reduce conflict for DOT resolved as shift
+    RPAREN          reduce using rule 44 (expression -> ID .)
+    PLUS            reduce using rule 44 (expression -> ID .)
+    MINUS           reduce using rule 44 (expression -> ID .)
+    TIMES           reduce using rule 44 (expression -> ID .)
+    DIVIDE          reduce using rule 44 (expression -> ID .)
+    MOD             reduce using rule 44 (expression -> ID .)
+    COMPARE         reduce using rule 44 (expression -> ID .)
+    NOTEQUAL        reduce using rule 44 (expression -> ID .)
+    AND             reduce using rule 44 (expression -> ID .)
+    OR              reduce using rule 44 (expression -> ID .)
+    SEMICOLON       reduce using rule 44 (expression -> ID .)
+    COMMA           reduce using rule 44 (expression -> ID .)
+    LPAREN          shift and go to state 63
+    DOT             shift and go to state 64
+
+  ! DOT             [ reduce using rule 44 (expression -> ID .) ]
+
+
+state 67
+
+    (47) expression -> method_call .
+
+    RPAREN          reduce using rule 47 (expression -> method_call .)
+    PLUS            reduce using rule 47 (expression -> method_call .)
+    MINUS           reduce using rule 47 (expression -> method_call .)
+    TIMES           reduce using rule 47 (expression -> method_call .)
+    DIVIDE          reduce using rule 47 (expression -> method_call .)
+    MOD             reduce using rule 47 (expression -> method_call .)
+    COMPARE         reduce using rule 47 (expression -> method_call .)
+    NOTEQUAL        reduce using rule 47 (expression -> method_call .)
+    AND             reduce using rule 47 (expression -> method_call .)
+    OR              reduce using rule 47 (expression -> method_call .)
+    DOT             reduce using rule 47 (expression -> method_call .)
+    SEMICOLON       reduce using rule 47 (expression -> method_call .)
+    COMMA           reduce using rule 47 (expression -> method_call .)
+
+
+state 68
+
+    (18) method -> STATIC VOID ID LPAREN RPAREN LBRACE statements RBRACE .
+
+    RBRACE          reduce using rule 18 (method -> STATIC VOID ID LPAREN RPAREN LBRACE statements RBRACE .)
+    STATIC          reduce using rule 18 (method -> STATIC VOID ID LPAREN RPAREN LBRACE statements RBRACE .)
+    INT             reduce using rule 18 (method -> STATIC VOID ID LPAREN RPAREN LBRACE statements RBRACE .)
+    DOUBLE          reduce using rule 18 (method -> STATIC VOID ID LPAREN RPAREN LBRACE statements RBRACE .)
+    CHAR            reduce using rule 18 (method -> STATIC VOID ID LPAREN RPAREN LBRACE statements RBRACE .)
+    STRINGTYPE      reduce using rule 18 (method -> STATIC VOID ID LPAREN RPAREN LBRACE statements RBRACE .)
+    VOID            reduce using rule 18 (method -> STATIC VOID ID LPAREN RPAREN LBRACE statements RBRACE .)
+
+
+state 69
+
+    (24) statements -> statements statement .
+
+    RBRACE          reduce using rule 24 (statements -> statements statement .)
+    ID              reduce using rule 24 (statements -> statements statement .)
+    CONSOLE         reduce using rule 24 (statements -> statements statement .)
+    NUMBER          reduce using rule 24 (statements -> statements statement .)
+    STRING_LITERAL  reduce using rule 24 (statements -> statements statement .)
+    LPAREN          reduce using rule 24 (statements -> statements statement .)
+    IF              reduce using rule 24 (statements -> statements statement .)
+    WHILE           reduce using rule 24 (statements -> statements statement .)
+    INT             reduce using rule 24 (statements -> statements statement .)
+    DOUBLE          reduce using rule 24 (statements -> statements statement .)
+    CHAR            reduce using rule 24 (statements -> statements statement .)
+    STRINGTYPE      reduce using rule 24 (statements -> statements statement .)
+    VOID            reduce using rule 24 (statements -> statements statement .)
+
+
+state 70
+
+    (27) statement -> declaration SEMICOLON .
+
+    RBRACE          reduce using rule 27 (statement -> declaration SEMICOLON .)
+    ID              reduce using rule 27 (statement -> declaration SEMICOLON .)
+    CONSOLE         reduce using rule 27 (statement -> declaration SEMICOLON .)
+    NUMBER          reduce using rule 27 (statement -> declaration SEMICOLON .)
+    STRING_LITERAL  reduce using rule 27 (statement -> declaration SEMICOLON .)
+    LPAREN          reduce using rule 27 (statement -> declaration SEMICOLON .)
+    IF              reduce using rule 27 (statement -> declaration SEMICOLON .)
+    WHILE           reduce using rule 27 (statement -> declaration SEMICOLON .)
+    INT             reduce using rule 27 (statement -> declaration SEMICOLON .)
+    DOUBLE          reduce using rule 27 (statement -> declaration SEMICOLON .)
+    CHAR            reduce using rule 27 (statement -> declaration SEMICOLON .)
+    STRINGTYPE      reduce using rule 27 (statement -> declaration SEMICOLON .)
+    VOID            reduce using rule 27 (statement -> declaration SEMICOLON .)
+
+
+state 71
+
+    (28) statement -> assignment SEMICOLON .
+
+    RBRACE          reduce using rule 28 (statement -> assignment SEMICOLON .)
+    ID              reduce using rule 28 (statement -> assignment SEMICOLON .)
+    CONSOLE         reduce using rule 28 (statement -> assignment SEMICOLON .)
+    NUMBER          reduce using rule 28 (statement -> assignment SEMICOLON .)
+    STRING_LITERAL  reduce using rule 28 (statement -> assignment SEMICOLON .)
+    LPAREN          reduce using rule 28 (statement -> assignment SEMICOLON .)
+    IF              reduce using rule 28 (statement -> assignment SEMICOLON .)
+    WHILE           reduce using rule 28 (statement -> assignment SEMICOLON .)
+    INT             reduce using rule 28 (statement -> assignment SEMICOLON .)
+    DOUBLE          reduce using rule 28 (statement -> assignment SEMICOLON .)
+    CHAR            reduce using rule 28 (statement -> assignment SEMICOLON .)
+    STRINGTYPE      reduce using rule 28 (statement -> assignment SEMICOLON .)
+    VOID            reduce using rule 28 (statement -> assignment SEMICOLON .)
+
+
+state 72
+
+    (29) statement -> method_call SEMICOLON .
+
+    RBRACE          reduce using rule 29 (statement -> method_call SEMICOLON .)
+    ID              reduce using rule 29 (statement -> method_call SEMICOLON .)
+    CONSOLE         reduce using rule 29 (statement -> method_call SEMICOLON .)
+    NUMBER          reduce using rule 29 (statement -> method_call SEMICOLON .)
+    STRING_LITERAL  reduce using rule 29 (statement -> method_call SEMICOLON .)
+    LPAREN          reduce using rule 29 (statement -> method_call SEMICOLON .)
+    IF              reduce using rule 29 (statement -> method_call SEMICOLON .)
+    WHILE           reduce using rule 29 (statement -> method_call SEMICOLON .)
+    INT             reduce using rule 29 (statement -> method_call SEMICOLON .)
+    DOUBLE          reduce using rule 29 (statement -> method_call SEMICOLON .)
+    CHAR            reduce using rule 29 (statement -> method_call SEMICOLON .)
+    STRINGTYPE      reduce using rule 29 (statement -> method_call SEMICOLON .)
+    VOID            reduce using rule 29 (statement -> method_call SEMICOLON .)
+
+
+state 73
+
+    (30) statement -> expression SEMICOLON .
+
+    RBRACE          reduce using rule 30 (statement -> expression SEMICOLON .)
+    ID              reduce using rule 30 (statement -> expression SEMICOLON .)
+    CONSOLE         reduce using rule 30 (statement -> expression SEMICOLON .)
+    NUMBER          reduce using rule 30 (statement -> expression SEMICOLON .)
+    STRING_LITERAL  reduce using rule 30 (statement -> expression SEMICOLON .)
+    LPAREN          reduce using rule 30 (statement -> expression SEMICOLON .)
+    IF              reduce using rule 30 (statement -> expression SEMICOLON .)
+    WHILE           reduce using rule 30 (statement -> expression SEMICOLON .)
+    INT             reduce using rule 30 (statement -> expression SEMICOLON .)
+    DOUBLE          reduce using rule 30 (statement -> expression SEMICOLON .)
+    CHAR            reduce using rule 30 (statement -> expression SEMICOLON .)
+    STRINGTYPE      reduce using rule 30 (statement -> expression SEMICOLON .)
+    VOID            reduce using rule 30 (statement -> expression SEMICOLON .)
+
+
+state 74
+
+    (49) expression -> expression PLUS . expression
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    CONSOLE         shift and go to state 54
+
+    expression                     shift and go to state 96
+    method_call                    shift and go to state 67
+
+state 75
+
+    (50) expression -> expression MINUS . expression
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    CONSOLE         shift and go to state 54
+
+    expression                     shift and go to state 97
+    method_call                    shift and go to state 67
+
+state 76
+
+    (51) expression -> expression TIMES . expression
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    CONSOLE         shift and go to state 54
+
+    expression                     shift and go to state 98
+    method_call                    shift and go to state 67
+
+state 77
+
+    (52) expression -> expression DIVIDE . expression
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    CONSOLE         shift and go to state 54
+
+    expression                     shift and go to state 99
+    method_call                    shift and go to state 67
+
+state 78
+
+    (53) expression -> expression MOD . expression
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    CONSOLE         shift and go to state 54
+
+    expression                     shift and go to state 100
+    method_call                    shift and go to state 67
+
+state 79
+
+    (54) expression -> expression COMPARE . expression
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    CONSOLE         shift and go to state 54
+
+    expression                     shift and go to state 101
+    method_call                    shift and go to state 67
+
+state 80
+
+    (55) expression -> expression NOTEQUAL . expression
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    CONSOLE         shift and go to state 54
+
+    expression                     shift and go to state 102
+    method_call                    shift and go to state 67
+
+state 81
+
+    (56) expression -> expression AND . expression
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    CONSOLE         shift and go to state 54
+
+    expression                     shift and go to state 103
+    method_call                    shift and go to state 67
+
+state 82
+
+    (57) expression -> expression OR . expression
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    CONSOLE         shift and go to state 54
+
+    expression                     shift and go to state 104
+    method_call                    shift and go to state 67
+
+state 83
+
+    (58) expression -> expression DOT . ID
+
+    ID              shift and go to state 105
+
+
+state 84
+
+    (33) declaration -> type ID . EQUAL expression
+
+    EQUAL           shift and go to state 106
+
+
+state 85
+
+    (40) method_call -> CONSOLE DOT . ID LPAREN args RPAREN
+
+    ID              shift and go to state 107
+
+
+state 86
+
+    (35) if_statement -> IF LPAREN . expression RPAREN LBRACE statements RBRACE
+    (36) if_statement -> IF LPAREN . expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    CONSOLE         shift and go to state 54
+
+    expression                     shift and go to state 108
+    method_call                    shift and go to state 67
+
+state 87
+
+    (37) while_statement -> WHILE LPAREN . expression RPAREN LBRACE statements RBRACE
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    CONSOLE         shift and go to state 54
+
+    expression                     shift and go to state 109
+    method_call                    shift and go to state 67
+
+state 88
+
+    (19) method -> STATIC VOID ID LPAREN parameter_list RPAREN LBRACE statements . RBRACE
+    (24) statements -> statements . statement
+    (27) statement -> . declaration SEMICOLON
+    (28) statement -> . assignment SEMICOLON
+    (29) statement -> . method_call SEMICOLON
+    (30) statement -> . expression SEMICOLON
+    (31) statement -> . if_statement
+    (32) statement -> . while_statement
+    (33) declaration -> . type ID EQUAL expression
+    (34) assignment -> . ID EQUAL expression
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (35) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE
+    (36) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE
+    (37) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statements RBRACE
+    (13) type -> . INT
+    (14) type -> . DOUBLE
+    (15) type -> . CHAR
+    (16) type -> . STRINGTYPE
+    (17) type -> . VOID
+
+    RBRACE          shift and go to state 110
+    ID              shift and go to state 42
+    CONSOLE         shift and go to state 54
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    IF              shift and go to state 57
+    WHILE           shift and go to state 58
+    INT             shift and go to state 21
+    DOUBLE          shift and go to state 22
+    CHAR            shift and go to state 23
+    STRINGTYPE      shift and go to state 24
+    VOID            shift and go to state 20
+
+    statement                      shift and go to state 69
+    declaration                    shift and go to state 47
+    assignment                     shift and go to state 48
+    method_call                    shift and go to state 49
+    expression                     shift and go to state 50
+    if_statement                   shift and go to state 51
+    while_statement                shift and go to state 52
+    type                           shift and go to state 53
+
+state 89
+
+    (23) param -> STRINGTYPE LBRACKET RBRACKET ID .
+
+    RPAREN          reduce using rule 23 (param -> STRINGTYPE LBRACKET RBRACKET ID .)
+    COMMA           reduce using rule 23 (param -> STRINGTYPE LBRACKET RBRACKET ID .)
+
+
+state 90
+
+    (34) assignment -> ID EQUAL expression .
+    (49) expression -> expression . PLUS expression
+    (50) expression -> expression . MINUS expression
+    (51) expression -> expression . TIMES expression
+    (52) expression -> expression . DIVIDE expression
+    (53) expression -> expression . MOD expression
+    (54) expression -> expression . COMPARE expression
+    (55) expression -> expression . NOTEQUAL expression
+    (56) expression -> expression . AND expression
+    (57) expression -> expression . OR expression
+    (58) expression -> expression . DOT ID
+
+    SEMICOLON       reduce using rule 34 (assignment -> ID EQUAL expression .)
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 75
+    TIMES           shift and go to state 76
+    DIVIDE          shift and go to state 77
+    MOD             shift and go to state 78
+    COMPARE         shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    AND             shift and go to state 81
+    OR              shift and go to state 82
+    DOT             shift and go to state 83
+
+
+state 91
+
+    (38) method_call -> ID LPAREN args . RPAREN
+    (42) args -> args . COMMA expression
+
+    RPAREN          shift and go to state 111
+    COMMA           shift and go to state 112
+
+
+state 92
+
+    (41) args -> expression .
+    (49) expression -> expression . PLUS expression
+    (50) expression -> expression . MINUS expression
+    (51) expression -> expression . TIMES expression
+    (52) expression -> expression . DIVIDE expression
+    (53) expression -> expression . MOD expression
+    (54) expression -> expression . COMPARE expression
+    (55) expression -> expression . NOTEQUAL expression
+    (56) expression -> expression . AND expression
+    (57) expression -> expression . OR expression
+    (58) expression -> expression . DOT ID
+
+    RPAREN          reduce using rule 41 (args -> expression .)
+    COMMA           reduce using rule 41 (args -> expression .)
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 75
+    TIMES           shift and go to state 76
+    DIVIDE          shift and go to state 77
+    MOD             shift and go to state 78
+    COMPARE         shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    AND             shift and go to state 81
+    OR              shift and go to state 82
+    DOT             shift and go to state 83
+
+
+state 93
+
+    (43) args -> empty .
+
+    RPAREN          reduce using rule 43 (args -> empty .)
+    COMMA           reduce using rule 43 (args -> empty .)
+
+
+state 94
+
+    (39) method_call -> ID DOT ID . LPAREN args RPAREN
+
+    LPAREN          shift and go to state 113
+
+
+state 95
+
+    (48) expression -> LPAREN expression RPAREN .
+
+    SEMICOLON       reduce using rule 48 (expression -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 48 (expression -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 48 (expression -> LPAREN expression RPAREN .)
+    TIMES           reduce using rule 48 (expression -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 48 (expression -> LPAREN expression RPAREN .)
+    MOD             reduce using rule 48 (expression -> LPAREN expression RPAREN .)
+    COMPARE         reduce using rule 48 (expression -> LPAREN expression RPAREN .)
+    NOTEQUAL        reduce using rule 48 (expression -> LPAREN expression RPAREN .)
+    AND             reduce using rule 48 (expression -> LPAREN expression RPAREN .)
+    OR              reduce using rule 48 (expression -> LPAREN expression RPAREN .)
+    DOT             reduce using rule 48 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 48 (expression -> LPAREN expression RPAREN .)
+    COMMA           reduce using rule 48 (expression -> LPAREN expression RPAREN .)
+
+
+state 96
+
+    (49) expression -> expression PLUS expression .
+    (49) expression -> expression . PLUS expression
+    (50) expression -> expression . MINUS expression
+    (51) expression -> expression . TIMES expression
+    (52) expression -> expression . DIVIDE expression
+    (53) expression -> expression . MOD expression
+    (54) expression -> expression . COMPARE expression
+    (55) expression -> expression . NOTEQUAL expression
+    (56) expression -> expression . AND expression
+    (57) expression -> expression . OR expression
+    (58) expression -> expression . DOT ID
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for COMPARE resolved as shift
+  ! shift/reduce conflict for NOTEQUAL resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for DOT resolved as shift
+    SEMICOLON       reduce using rule 49 (expression -> expression PLUS expression .)
+    RPAREN          reduce using rule 49 (expression -> expression PLUS expression .)
+    COMMA           reduce using rule 49 (expression -> expression PLUS expression .)
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 75
+    TIMES           shift and go to state 76
+    DIVIDE          shift and go to state 77
+    MOD             shift and go to state 78
+    COMPARE         shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    AND             shift and go to state 81
+    OR              shift and go to state 82
+    DOT             shift and go to state 83
+
+  ! PLUS            [ reduce using rule 49 (expression -> expression PLUS expression .) ]
+  ! MINUS           [ reduce using rule 49 (expression -> expression PLUS expression .) ]
+  ! TIMES           [ reduce using rule 49 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 49 (expression -> expression PLUS expression .) ]
+  ! MOD             [ reduce using rule 49 (expression -> expression PLUS expression .) ]
+  ! COMPARE         [ reduce using rule 49 (expression -> expression PLUS expression .) ]
+  ! NOTEQUAL        [ reduce using rule 49 (expression -> expression PLUS expression .) ]
+  ! AND             [ reduce using rule 49 (expression -> expression PLUS expression .) ]
+  ! OR              [ reduce using rule 49 (expression -> expression PLUS expression .) ]
+  ! DOT             [ reduce using rule 49 (expression -> expression PLUS expression .) ]
+
+
+state 97
+
+    (50) expression -> expression MINUS expression .
+    (49) expression -> expression . PLUS expression
+    (50) expression -> expression . MINUS expression
+    (51) expression -> expression . TIMES expression
+    (52) expression -> expression . DIVIDE expression
+    (53) expression -> expression . MOD expression
+    (54) expression -> expression . COMPARE expression
+    (55) expression -> expression . NOTEQUAL expression
+    (56) expression -> expression . AND expression
+    (57) expression -> expression . OR expression
+    (58) expression -> expression . DOT ID
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for COMPARE resolved as shift
+  ! shift/reduce conflict for NOTEQUAL resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for DOT resolved as shift
+    SEMICOLON       reduce using rule 50 (expression -> expression MINUS expression .)
+    RPAREN          reduce using rule 50 (expression -> expression MINUS expression .)
+    COMMA           reduce using rule 50 (expression -> expression MINUS expression .)
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 75
+    TIMES           shift and go to state 76
+    DIVIDE          shift and go to state 77
+    MOD             shift and go to state 78
+    COMPARE         shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    AND             shift and go to state 81
+    OR              shift and go to state 82
+    DOT             shift and go to state 83
+
+  ! PLUS            [ reduce using rule 50 (expression -> expression MINUS expression .) ]
+  ! MINUS           [ reduce using rule 50 (expression -> expression MINUS expression .) ]
+  ! TIMES           [ reduce using rule 50 (expression -> expression MINUS expression .) ]
+  ! DIVIDE          [ reduce using rule 50 (expression -> expression MINUS expression .) ]
+  ! MOD             [ reduce using rule 50 (expression -> expression MINUS expression .) ]
+  ! COMPARE         [ reduce using rule 50 (expression -> expression MINUS expression .) ]
+  ! NOTEQUAL        [ reduce using rule 50 (expression -> expression MINUS expression .) ]
+  ! AND             [ reduce using rule 50 (expression -> expression MINUS expression .) ]
+  ! OR              [ reduce using rule 50 (expression -> expression MINUS expression .) ]
+  ! DOT             [ reduce using rule 50 (expression -> expression MINUS expression .) ]
+
+
+state 98
+
+    (51) expression -> expression TIMES expression .
+    (49) expression -> expression . PLUS expression
+    (50) expression -> expression . MINUS expression
+    (51) expression -> expression . TIMES expression
+    (52) expression -> expression . DIVIDE expression
+    (53) expression -> expression . MOD expression
+    (54) expression -> expression . COMPARE expression
+    (55) expression -> expression . NOTEQUAL expression
+    (56) expression -> expression . AND expression
+    (57) expression -> expression . OR expression
+    (58) expression -> expression . DOT ID
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for COMPARE resolved as shift
+  ! shift/reduce conflict for NOTEQUAL resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for DOT resolved as shift
+    SEMICOLON       reduce using rule 51 (expression -> expression TIMES expression .)
+    RPAREN          reduce using rule 51 (expression -> expression TIMES expression .)
+    COMMA           reduce using rule 51 (expression -> expression TIMES expression .)
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 75
+    TIMES           shift and go to state 76
+    DIVIDE          shift and go to state 77
+    MOD             shift and go to state 78
+    COMPARE         shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    AND             shift and go to state 81
+    OR              shift and go to state 82
+    DOT             shift and go to state 83
+
+  ! PLUS            [ reduce using rule 51 (expression -> expression TIMES expression .) ]
+  ! MINUS           [ reduce using rule 51 (expression -> expression TIMES expression .) ]
+  ! TIMES           [ reduce using rule 51 (expression -> expression TIMES expression .) ]
+  ! DIVIDE          [ reduce using rule 51 (expression -> expression TIMES expression .) ]
+  ! MOD             [ reduce using rule 51 (expression -> expression TIMES expression .) ]
+  ! COMPARE         [ reduce using rule 51 (expression -> expression TIMES expression .) ]
+  ! NOTEQUAL        [ reduce using rule 51 (expression -> expression TIMES expression .) ]
+  ! AND             [ reduce using rule 51 (expression -> expression TIMES expression .) ]
+  ! OR              [ reduce using rule 51 (expression -> expression TIMES expression .) ]
+  ! DOT             [ reduce using rule 51 (expression -> expression TIMES expression .) ]
+
+
+state 99
+
+    (52) expression -> expression DIVIDE expression .
+    (49) expression -> expression . PLUS expression
+    (50) expression -> expression . MINUS expression
+    (51) expression -> expression . TIMES expression
+    (52) expression -> expression . DIVIDE expression
+    (53) expression -> expression . MOD expression
+    (54) expression -> expression . COMPARE expression
+    (55) expression -> expression . NOTEQUAL expression
+    (56) expression -> expression . AND expression
+    (57) expression -> expression . OR expression
+    (58) expression -> expression . DOT ID
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for COMPARE resolved as shift
+  ! shift/reduce conflict for NOTEQUAL resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for DOT resolved as shift
+    SEMICOLON       reduce using rule 52 (expression -> expression DIVIDE expression .)
+    RPAREN          reduce using rule 52 (expression -> expression DIVIDE expression .)
+    COMMA           reduce using rule 52 (expression -> expression DIVIDE expression .)
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 75
+    TIMES           shift and go to state 76
+    DIVIDE          shift and go to state 77
+    MOD             shift and go to state 78
+    COMPARE         shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    AND             shift and go to state 81
+    OR              shift and go to state 82
+    DOT             shift and go to state 83
+
+  ! PLUS            [ reduce using rule 52 (expression -> expression DIVIDE expression .) ]
+  ! MINUS           [ reduce using rule 52 (expression -> expression DIVIDE expression .) ]
+  ! TIMES           [ reduce using rule 52 (expression -> expression DIVIDE expression .) ]
+  ! DIVIDE          [ reduce using rule 52 (expression -> expression DIVIDE expression .) ]
+  ! MOD             [ reduce using rule 52 (expression -> expression DIVIDE expression .) ]
+  ! COMPARE         [ reduce using rule 52 (expression -> expression DIVIDE expression .) ]
+  ! NOTEQUAL        [ reduce using rule 52 (expression -> expression DIVIDE expression .) ]
+  ! AND             [ reduce using rule 52 (expression -> expression DIVIDE expression .) ]
+  ! OR              [ reduce using rule 52 (expression -> expression DIVIDE expression .) ]
+  ! DOT             [ reduce using rule 52 (expression -> expression DIVIDE expression .) ]
+
+
+state 100
+
+    (53) expression -> expression MOD expression .
+    (49) expression -> expression . PLUS expression
+    (50) expression -> expression . MINUS expression
+    (51) expression -> expression . TIMES expression
+    (52) expression -> expression . DIVIDE expression
+    (53) expression -> expression . MOD expression
+    (54) expression -> expression . COMPARE expression
+    (55) expression -> expression . NOTEQUAL expression
+    (56) expression -> expression . AND expression
+    (57) expression -> expression . OR expression
+    (58) expression -> expression . DOT ID
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for COMPARE resolved as shift
+  ! shift/reduce conflict for NOTEQUAL resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for DOT resolved as shift
+    SEMICOLON       reduce using rule 53 (expression -> expression MOD expression .)
+    RPAREN          reduce using rule 53 (expression -> expression MOD expression .)
+    COMMA           reduce using rule 53 (expression -> expression MOD expression .)
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 75
+    TIMES           shift and go to state 76
+    DIVIDE          shift and go to state 77
+    MOD             shift and go to state 78
+    COMPARE         shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    AND             shift and go to state 81
+    OR              shift and go to state 82
+    DOT             shift and go to state 83
+
+  ! PLUS            [ reduce using rule 53 (expression -> expression MOD expression .) ]
+  ! MINUS           [ reduce using rule 53 (expression -> expression MOD expression .) ]
+  ! TIMES           [ reduce using rule 53 (expression -> expression MOD expression .) ]
+  ! DIVIDE          [ reduce using rule 53 (expression -> expression MOD expression .) ]
+  ! MOD             [ reduce using rule 53 (expression -> expression MOD expression .) ]
+  ! COMPARE         [ reduce using rule 53 (expression -> expression MOD expression .) ]
+  ! NOTEQUAL        [ reduce using rule 53 (expression -> expression MOD expression .) ]
+  ! AND             [ reduce using rule 53 (expression -> expression MOD expression .) ]
+  ! OR              [ reduce using rule 53 (expression -> expression MOD expression .) ]
+  ! DOT             [ reduce using rule 53 (expression -> expression MOD expression .) ]
+
+
+state 101
+
+    (54) expression -> expression COMPARE expression .
+    (49) expression -> expression . PLUS expression
+    (50) expression -> expression . MINUS expression
+    (51) expression -> expression . TIMES expression
+    (52) expression -> expression . DIVIDE expression
+    (53) expression -> expression . MOD expression
+    (54) expression -> expression . COMPARE expression
+    (55) expression -> expression . NOTEQUAL expression
+    (56) expression -> expression . AND expression
+    (57) expression -> expression . OR expression
+    (58) expression -> expression . DOT ID
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for COMPARE resolved as shift
+  ! shift/reduce conflict for NOTEQUAL resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for DOT resolved as shift
+    SEMICOLON       reduce using rule 54 (expression -> expression COMPARE expression .)
+    RPAREN          reduce using rule 54 (expression -> expression COMPARE expression .)
+    COMMA           reduce using rule 54 (expression -> expression COMPARE expression .)
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 75
+    TIMES           shift and go to state 76
+    DIVIDE          shift and go to state 77
+    MOD             shift and go to state 78
+    COMPARE         shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    AND             shift and go to state 81
+    OR              shift and go to state 82
+    DOT             shift and go to state 83
+
+  ! PLUS            [ reduce using rule 54 (expression -> expression COMPARE expression .) ]
+  ! MINUS           [ reduce using rule 54 (expression -> expression COMPARE expression .) ]
+  ! TIMES           [ reduce using rule 54 (expression -> expression COMPARE expression .) ]
+  ! DIVIDE          [ reduce using rule 54 (expression -> expression COMPARE expression .) ]
+  ! MOD             [ reduce using rule 54 (expression -> expression COMPARE expression .) ]
+  ! COMPARE         [ reduce using rule 54 (expression -> expression COMPARE expression .) ]
+  ! NOTEQUAL        [ reduce using rule 54 (expression -> expression COMPARE expression .) ]
+  ! AND             [ reduce using rule 54 (expression -> expression COMPARE expression .) ]
+  ! OR              [ reduce using rule 54 (expression -> expression COMPARE expression .) ]
+  ! DOT             [ reduce using rule 54 (expression -> expression COMPARE expression .) ]
+
+
+state 102
+
+    (55) expression -> expression NOTEQUAL expression .
+    (49) expression -> expression . PLUS expression
+    (50) expression -> expression . MINUS expression
+    (51) expression -> expression . TIMES expression
+    (52) expression -> expression . DIVIDE expression
+    (53) expression -> expression . MOD expression
+    (54) expression -> expression . COMPARE expression
+    (55) expression -> expression . NOTEQUAL expression
+    (56) expression -> expression . AND expression
+    (57) expression -> expression . OR expression
+    (58) expression -> expression . DOT ID
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for COMPARE resolved as shift
+  ! shift/reduce conflict for NOTEQUAL resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for DOT resolved as shift
+    SEMICOLON       reduce using rule 55 (expression -> expression NOTEQUAL expression .)
+    RPAREN          reduce using rule 55 (expression -> expression NOTEQUAL expression .)
+    COMMA           reduce using rule 55 (expression -> expression NOTEQUAL expression .)
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 75
+    TIMES           shift and go to state 76
+    DIVIDE          shift and go to state 77
+    MOD             shift and go to state 78
+    COMPARE         shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    AND             shift and go to state 81
+    OR              shift and go to state 82
+    DOT             shift and go to state 83
+
+  ! PLUS            [ reduce using rule 55 (expression -> expression NOTEQUAL expression .) ]
+  ! MINUS           [ reduce using rule 55 (expression -> expression NOTEQUAL expression .) ]
+  ! TIMES           [ reduce using rule 55 (expression -> expression NOTEQUAL expression .) ]
+  ! DIVIDE          [ reduce using rule 55 (expression -> expression NOTEQUAL expression .) ]
+  ! MOD             [ reduce using rule 55 (expression -> expression NOTEQUAL expression .) ]
+  ! COMPARE         [ reduce using rule 55 (expression -> expression NOTEQUAL expression .) ]
+  ! NOTEQUAL        [ reduce using rule 55 (expression -> expression NOTEQUAL expression .) ]
+  ! AND             [ reduce using rule 55 (expression -> expression NOTEQUAL expression .) ]
+  ! OR              [ reduce using rule 55 (expression -> expression NOTEQUAL expression .) ]
+  ! DOT             [ reduce using rule 55 (expression -> expression NOTEQUAL expression .) ]
+
+
+state 103
+
+    (56) expression -> expression AND expression .
+    (49) expression -> expression . PLUS expression
+    (50) expression -> expression . MINUS expression
+    (51) expression -> expression . TIMES expression
+    (52) expression -> expression . DIVIDE expression
+    (53) expression -> expression . MOD expression
+    (54) expression -> expression . COMPARE expression
+    (55) expression -> expression . NOTEQUAL expression
+    (56) expression -> expression . AND expression
+    (57) expression -> expression . OR expression
+    (58) expression -> expression . DOT ID
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for COMPARE resolved as shift
+  ! shift/reduce conflict for NOTEQUAL resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for DOT resolved as shift
+    SEMICOLON       reduce using rule 56 (expression -> expression AND expression .)
+    RPAREN          reduce using rule 56 (expression -> expression AND expression .)
+    COMMA           reduce using rule 56 (expression -> expression AND expression .)
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 75
+    TIMES           shift and go to state 76
+    DIVIDE          shift and go to state 77
+    MOD             shift and go to state 78
+    COMPARE         shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    AND             shift and go to state 81
+    OR              shift and go to state 82
+    DOT             shift and go to state 83
+
+  ! PLUS            [ reduce using rule 56 (expression -> expression AND expression .) ]
+  ! MINUS           [ reduce using rule 56 (expression -> expression AND expression .) ]
+  ! TIMES           [ reduce using rule 56 (expression -> expression AND expression .) ]
+  ! DIVIDE          [ reduce using rule 56 (expression -> expression AND expression .) ]
+  ! MOD             [ reduce using rule 56 (expression -> expression AND expression .) ]
+  ! COMPARE         [ reduce using rule 56 (expression -> expression AND expression .) ]
+  ! NOTEQUAL        [ reduce using rule 56 (expression -> expression AND expression .) ]
+  ! AND             [ reduce using rule 56 (expression -> expression AND expression .) ]
+  ! OR              [ reduce using rule 56 (expression -> expression AND expression .) ]
+  ! DOT             [ reduce using rule 56 (expression -> expression AND expression .) ]
+
+
+state 104
+
+    (57) expression -> expression OR expression .
+    (49) expression -> expression . PLUS expression
+    (50) expression -> expression . MINUS expression
+    (51) expression -> expression . TIMES expression
+    (52) expression -> expression . DIVIDE expression
+    (53) expression -> expression . MOD expression
+    (54) expression -> expression . COMPARE expression
+    (55) expression -> expression . NOTEQUAL expression
+    (56) expression -> expression . AND expression
+    (57) expression -> expression . OR expression
+    (58) expression -> expression . DOT ID
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for COMPARE resolved as shift
+  ! shift/reduce conflict for NOTEQUAL resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for DOT resolved as shift
+    SEMICOLON       reduce using rule 57 (expression -> expression OR expression .)
+    RPAREN          reduce using rule 57 (expression -> expression OR expression .)
+    COMMA           reduce using rule 57 (expression -> expression OR expression .)
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 75
+    TIMES           shift and go to state 76
+    DIVIDE          shift and go to state 77
+    MOD             shift and go to state 78
+    COMPARE         shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    AND             shift and go to state 81
+    OR              shift and go to state 82
+    DOT             shift and go to state 83
+
+  ! PLUS            [ reduce using rule 57 (expression -> expression OR expression .) ]
+  ! MINUS           [ reduce using rule 57 (expression -> expression OR expression .) ]
+  ! TIMES           [ reduce using rule 57 (expression -> expression OR expression .) ]
+  ! DIVIDE          [ reduce using rule 57 (expression -> expression OR expression .) ]
+  ! MOD             [ reduce using rule 57 (expression -> expression OR expression .) ]
+  ! COMPARE         [ reduce using rule 57 (expression -> expression OR expression .) ]
+  ! NOTEQUAL        [ reduce using rule 57 (expression -> expression OR expression .) ]
+  ! AND             [ reduce using rule 57 (expression -> expression OR expression .) ]
+  ! OR              [ reduce using rule 57 (expression -> expression OR expression .) ]
+  ! DOT             [ reduce using rule 57 (expression -> expression OR expression .) ]
+
+
+state 105
+
+    (58) expression -> expression DOT ID .
+
+    SEMICOLON       reduce using rule 58 (expression -> expression DOT ID .)
+    PLUS            reduce using rule 58 (expression -> expression DOT ID .)
+    MINUS           reduce using rule 58 (expression -> expression DOT ID .)
+    TIMES           reduce using rule 58 (expression -> expression DOT ID .)
+    DIVIDE          reduce using rule 58 (expression -> expression DOT ID .)
+    MOD             reduce using rule 58 (expression -> expression DOT ID .)
+    COMPARE         reduce using rule 58 (expression -> expression DOT ID .)
+    NOTEQUAL        reduce using rule 58 (expression -> expression DOT ID .)
+    AND             reduce using rule 58 (expression -> expression DOT ID .)
+    OR              reduce using rule 58 (expression -> expression DOT ID .)
+    DOT             reduce using rule 58 (expression -> expression DOT ID .)
+    RPAREN          reduce using rule 58 (expression -> expression DOT ID .)
+    COMMA           reduce using rule 58 (expression -> expression DOT ID .)
+
+
+state 106
+
+    (33) declaration -> type ID EQUAL . expression
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    CONSOLE         shift and go to state 54
+
+    expression                     shift and go to state 114
+    method_call                    shift and go to state 67
+
+state 107
+
+    (40) method_call -> CONSOLE DOT ID . LPAREN args RPAREN
+
+    LPAREN          shift and go to state 115
+
+
+state 108
+
+    (35) if_statement -> IF LPAREN expression . RPAREN LBRACE statements RBRACE
+    (36) if_statement -> IF LPAREN expression . RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE
+    (49) expression -> expression . PLUS expression
+    (50) expression -> expression . MINUS expression
+    (51) expression -> expression . TIMES expression
+    (52) expression -> expression . DIVIDE expression
+    (53) expression -> expression . MOD expression
+    (54) expression -> expression . COMPARE expression
+    (55) expression -> expression . NOTEQUAL expression
+    (56) expression -> expression . AND expression
+    (57) expression -> expression . OR expression
+    (58) expression -> expression . DOT ID
+
+    RPAREN          shift and go to state 116
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 75
+    TIMES           shift and go to state 76
+    DIVIDE          shift and go to state 77
+    MOD             shift and go to state 78
+    COMPARE         shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    AND             shift and go to state 81
+    OR              shift and go to state 82
+    DOT             shift and go to state 83
+
+
+state 109
+
+    (37) while_statement -> WHILE LPAREN expression . RPAREN LBRACE statements RBRACE
+    (49) expression -> expression . PLUS expression
+    (50) expression -> expression . MINUS expression
+    (51) expression -> expression . TIMES expression
+    (52) expression -> expression . DIVIDE expression
+    (53) expression -> expression . MOD expression
+    (54) expression -> expression . COMPARE expression
+    (55) expression -> expression . NOTEQUAL expression
+    (56) expression -> expression . AND expression
+    (57) expression -> expression . OR expression
+    (58) expression -> expression . DOT ID
+
+    RPAREN          shift and go to state 117
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 75
+    TIMES           shift and go to state 76
+    DIVIDE          shift and go to state 77
+    MOD             shift and go to state 78
+    COMPARE         shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    AND             shift and go to state 81
+    OR              shift and go to state 82
+    DOT             shift and go to state 83
+
+
+state 110
+
+    (19) method -> STATIC VOID ID LPAREN parameter_list RPAREN LBRACE statements RBRACE .
+
+    RBRACE          reduce using rule 19 (method -> STATIC VOID ID LPAREN parameter_list RPAREN LBRACE statements RBRACE .)
+    STATIC          reduce using rule 19 (method -> STATIC VOID ID LPAREN parameter_list RPAREN LBRACE statements RBRACE .)
+    INT             reduce using rule 19 (method -> STATIC VOID ID LPAREN parameter_list RPAREN LBRACE statements RBRACE .)
+    DOUBLE          reduce using rule 19 (method -> STATIC VOID ID LPAREN parameter_list RPAREN LBRACE statements RBRACE .)
+    CHAR            reduce using rule 19 (method -> STATIC VOID ID LPAREN parameter_list RPAREN LBRACE statements RBRACE .)
+    STRINGTYPE      reduce using rule 19 (method -> STATIC VOID ID LPAREN parameter_list RPAREN LBRACE statements RBRACE .)
+    VOID            reduce using rule 19 (method -> STATIC VOID ID LPAREN parameter_list RPAREN LBRACE statements RBRACE .)
+
+
+state 111
+
+    (38) method_call -> ID LPAREN args RPAREN .
+
+    SEMICOLON       reduce using rule 38 (method_call -> ID LPAREN args RPAREN .)
+    PLUS            reduce using rule 38 (method_call -> ID LPAREN args RPAREN .)
+    MINUS           reduce using rule 38 (method_call -> ID LPAREN args RPAREN .)
+    TIMES           reduce using rule 38 (method_call -> ID LPAREN args RPAREN .)
+    DIVIDE          reduce using rule 38 (method_call -> ID LPAREN args RPAREN .)
+    MOD             reduce using rule 38 (method_call -> ID LPAREN args RPAREN .)
+    COMPARE         reduce using rule 38 (method_call -> ID LPAREN args RPAREN .)
+    NOTEQUAL        reduce using rule 38 (method_call -> ID LPAREN args RPAREN .)
+    AND             reduce using rule 38 (method_call -> ID LPAREN args RPAREN .)
+    OR              reduce using rule 38 (method_call -> ID LPAREN args RPAREN .)
+    DOT             reduce using rule 38 (method_call -> ID LPAREN args RPAREN .)
+    RPAREN          reduce using rule 38 (method_call -> ID LPAREN args RPAREN .)
+    COMMA           reduce using rule 38 (method_call -> ID LPAREN args RPAREN .)
+
+
+state 112
+
+    (42) args -> args COMMA . expression
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    CONSOLE         shift and go to state 54
+
+    expression                     shift and go to state 118
+    method_call                    shift and go to state 67
+
+state 113
+
+    (39) method_call -> ID DOT ID LPAREN . args RPAREN
+    (41) args -> . expression
+    (42) args -> . args COMMA expression
+    (43) args -> . empty
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (59) empty -> .
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    RPAREN          reduce using rule 59 (empty -> .)
+    COMMA           reduce using rule 59 (empty -> .)
+    CONSOLE         shift and go to state 54
+
+    args                           shift and go to state 119
+    expression                     shift and go to state 92
+    empty                          shift and go to state 93
+    method_call                    shift and go to state 67
+
+state 114
+
+    (33) declaration -> type ID EQUAL expression .
+    (49) expression -> expression . PLUS expression
+    (50) expression -> expression . MINUS expression
+    (51) expression -> expression . TIMES expression
+    (52) expression -> expression . DIVIDE expression
+    (53) expression -> expression . MOD expression
+    (54) expression -> expression . COMPARE expression
+    (55) expression -> expression . NOTEQUAL expression
+    (56) expression -> expression . AND expression
+    (57) expression -> expression . OR expression
+    (58) expression -> expression . DOT ID
+
+    SEMICOLON       reduce using rule 33 (declaration -> type ID EQUAL expression .)
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 75
+    TIMES           shift and go to state 76
+    DIVIDE          shift and go to state 77
+    MOD             shift and go to state 78
+    COMPARE         shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    AND             shift and go to state 81
+    OR              shift and go to state 82
+    DOT             shift and go to state 83
+
+
+state 115
+
+    (40) method_call -> CONSOLE DOT ID LPAREN . args RPAREN
+    (41) args -> . expression
+    (42) args -> . args COMMA expression
+    (43) args -> . empty
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (59) empty -> .
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+
+    ID              shift and go to state 66
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    RPAREN          reduce using rule 59 (empty -> .)
+    COMMA           reduce using rule 59 (empty -> .)
+    CONSOLE         shift and go to state 54
+
+    args                           shift and go to state 120
+    expression                     shift and go to state 92
+    empty                          shift and go to state 93
+    method_call                    shift and go to state 67
+
+state 116
+
+    (35) if_statement -> IF LPAREN expression RPAREN . LBRACE statements RBRACE
+    (36) if_statement -> IF LPAREN expression RPAREN . LBRACE statements RBRACE ELSE LBRACE statements RBRACE
+
+    LBRACE          shift and go to state 121
+
+
+state 117
+
+    (37) while_statement -> WHILE LPAREN expression RPAREN . LBRACE statements RBRACE
+
+    LBRACE          shift and go to state 122
+
+
+state 118
+
+    (42) args -> args COMMA expression .
+    (49) expression -> expression . PLUS expression
+    (50) expression -> expression . MINUS expression
+    (51) expression -> expression . TIMES expression
+    (52) expression -> expression . DIVIDE expression
+    (53) expression -> expression . MOD expression
+    (54) expression -> expression . COMPARE expression
+    (55) expression -> expression . NOTEQUAL expression
+    (56) expression -> expression . AND expression
+    (57) expression -> expression . OR expression
+    (58) expression -> expression . DOT ID
+
+    RPAREN          reduce using rule 42 (args -> args COMMA expression .)
+    COMMA           reduce using rule 42 (args -> args COMMA expression .)
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 75
+    TIMES           shift and go to state 76
+    DIVIDE          shift and go to state 77
+    MOD             shift and go to state 78
+    COMPARE         shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    AND             shift and go to state 81
+    OR              shift and go to state 82
+    DOT             shift and go to state 83
+
+
+state 119
+
+    (39) method_call -> ID DOT ID LPAREN args . RPAREN
+    (42) args -> args . COMMA expression
+
+    RPAREN          shift and go to state 123
+    COMMA           shift and go to state 112
+
+
+state 120
+
+    (40) method_call -> CONSOLE DOT ID LPAREN args . RPAREN
+    (42) args -> args . COMMA expression
+
+    RPAREN          shift and go to state 124
+    COMMA           shift and go to state 112
+
+
+state 121
+
+    (35) if_statement -> IF LPAREN expression RPAREN LBRACE . statements RBRACE
+    (36) if_statement -> IF LPAREN expression RPAREN LBRACE . statements RBRACE ELSE LBRACE statements RBRACE
+    (24) statements -> . statements statement
+    (25) statements -> . statement
+    (26) statements -> . empty
+    (27) statement -> . declaration SEMICOLON
+    (28) statement -> . assignment SEMICOLON
+    (29) statement -> . method_call SEMICOLON
+    (30) statement -> . expression SEMICOLON
+    (31) statement -> . if_statement
+    (32) statement -> . while_statement
+    (59) empty -> .
+    (33) declaration -> . type ID EQUAL expression
+    (34) assignment -> . ID EQUAL expression
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (35) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE
+    (36) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE
+    (37) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statements RBRACE
+    (13) type -> . INT
+    (14) type -> . DOUBLE
+    (15) type -> . CHAR
+    (16) type -> . STRINGTYPE
+    (17) type -> . VOID
+
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for CONSOLE resolved as shift
+  ! shift/reduce conflict for NUMBER resolved as shift
+  ! shift/reduce conflict for STRING_LITERAL resolved as shift
+  ! shift/reduce conflict for LPAREN resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for DOUBLE resolved as shift
+  ! shift/reduce conflict for CHAR resolved as shift
+  ! shift/reduce conflict for STRINGTYPE resolved as shift
+  ! shift/reduce conflict for VOID resolved as shift
+    RBRACE          reduce using rule 59 (empty -> .)
+    ID              shift and go to state 42
+    CONSOLE         shift and go to state 54
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    IF              shift and go to state 57
+    WHILE           shift and go to state 58
+    INT             shift and go to state 21
+    DOUBLE          shift and go to state 22
+    CHAR            shift and go to state 23
+    STRINGTYPE      shift and go to state 24
+    VOID            shift and go to state 20
+
+  ! ID              [ reduce using rule 59 (empty -> .) ]
+  ! CONSOLE         [ reduce using rule 59 (empty -> .) ]
+  ! NUMBER          [ reduce using rule 59 (empty -> .) ]
+  ! STRING_LITERAL  [ reduce using rule 59 (empty -> .) ]
+  ! LPAREN          [ reduce using rule 59 (empty -> .) ]
+  ! IF              [ reduce using rule 59 (empty -> .) ]
+  ! WHILE           [ reduce using rule 59 (empty -> .) ]
+  ! INT             [ reduce using rule 59 (empty -> .) ]
+  ! DOUBLE          [ reduce using rule 59 (empty -> .) ]
+  ! CHAR            [ reduce using rule 59 (empty -> .) ]
+  ! STRINGTYPE      [ reduce using rule 59 (empty -> .) ]
+  ! VOID            [ reduce using rule 59 (empty -> .) ]
+
+    expression                     shift and go to state 50
+    statements                     shift and go to state 125
+    statement                      shift and go to state 45
+    empty                          shift and go to state 46
+    declaration                    shift and go to state 47
+    assignment                     shift and go to state 48
+    method_call                    shift and go to state 49
+    if_statement                   shift and go to state 51
+    while_statement                shift and go to state 52
+    type                           shift and go to state 53
+
+state 122
+
+    (37) while_statement -> WHILE LPAREN expression RPAREN LBRACE . statements RBRACE
+    (24) statements -> . statements statement
+    (25) statements -> . statement
+    (26) statements -> . empty
+    (27) statement -> . declaration SEMICOLON
+    (28) statement -> . assignment SEMICOLON
+    (29) statement -> . method_call SEMICOLON
+    (30) statement -> . expression SEMICOLON
+    (31) statement -> . if_statement
+    (32) statement -> . while_statement
+    (59) empty -> .
+    (33) declaration -> . type ID EQUAL expression
+    (34) assignment -> . ID EQUAL expression
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (35) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE
+    (36) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE
+    (37) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statements RBRACE
+    (13) type -> . INT
+    (14) type -> . DOUBLE
+    (15) type -> . CHAR
+    (16) type -> . STRINGTYPE
+    (17) type -> . VOID
+
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for CONSOLE resolved as shift
+  ! shift/reduce conflict for NUMBER resolved as shift
+  ! shift/reduce conflict for STRING_LITERAL resolved as shift
+  ! shift/reduce conflict for LPAREN resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for DOUBLE resolved as shift
+  ! shift/reduce conflict for CHAR resolved as shift
+  ! shift/reduce conflict for STRINGTYPE resolved as shift
+  ! shift/reduce conflict for VOID resolved as shift
+    RBRACE          reduce using rule 59 (empty -> .)
+    ID              shift and go to state 42
+    CONSOLE         shift and go to state 54
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    IF              shift and go to state 57
+    WHILE           shift and go to state 58
+    INT             shift and go to state 21
+    DOUBLE          shift and go to state 22
+    CHAR            shift and go to state 23
+    STRINGTYPE      shift and go to state 24
+    VOID            shift and go to state 20
+
+  ! ID              [ reduce using rule 59 (empty -> .) ]
+  ! CONSOLE         [ reduce using rule 59 (empty -> .) ]
+  ! NUMBER          [ reduce using rule 59 (empty -> .) ]
+  ! STRING_LITERAL  [ reduce using rule 59 (empty -> .) ]
+  ! LPAREN          [ reduce using rule 59 (empty -> .) ]
+  ! IF              [ reduce using rule 59 (empty -> .) ]
+  ! WHILE           [ reduce using rule 59 (empty -> .) ]
+  ! INT             [ reduce using rule 59 (empty -> .) ]
+  ! DOUBLE          [ reduce using rule 59 (empty -> .) ]
+  ! CHAR            [ reduce using rule 59 (empty -> .) ]
+  ! STRINGTYPE      [ reduce using rule 59 (empty -> .) ]
+  ! VOID            [ reduce using rule 59 (empty -> .) ]
+
+    expression                     shift and go to state 50
+    statements                     shift and go to state 126
+    statement                      shift and go to state 45
+    empty                          shift and go to state 46
+    declaration                    shift and go to state 47
+    assignment                     shift and go to state 48
+    method_call                    shift and go to state 49
+    if_statement                   shift and go to state 51
+    while_statement                shift and go to state 52
+    type                           shift and go to state 53
+
+state 123
+
+    (39) method_call -> ID DOT ID LPAREN args RPAREN .
+
+    SEMICOLON       reduce using rule 39 (method_call -> ID DOT ID LPAREN args RPAREN .)
+    PLUS            reduce using rule 39 (method_call -> ID DOT ID LPAREN args RPAREN .)
+    MINUS           reduce using rule 39 (method_call -> ID DOT ID LPAREN args RPAREN .)
+    TIMES           reduce using rule 39 (method_call -> ID DOT ID LPAREN args RPAREN .)
+    DIVIDE          reduce using rule 39 (method_call -> ID DOT ID LPAREN args RPAREN .)
+    MOD             reduce using rule 39 (method_call -> ID DOT ID LPAREN args RPAREN .)
+    COMPARE         reduce using rule 39 (method_call -> ID DOT ID LPAREN args RPAREN .)
+    NOTEQUAL        reduce using rule 39 (method_call -> ID DOT ID LPAREN args RPAREN .)
+    AND             reduce using rule 39 (method_call -> ID DOT ID LPAREN args RPAREN .)
+    OR              reduce using rule 39 (method_call -> ID DOT ID LPAREN args RPAREN .)
+    DOT             reduce using rule 39 (method_call -> ID DOT ID LPAREN args RPAREN .)
+    RPAREN          reduce using rule 39 (method_call -> ID DOT ID LPAREN args RPAREN .)
+    COMMA           reduce using rule 39 (method_call -> ID DOT ID LPAREN args RPAREN .)
+
+
+state 124
+
+    (40) method_call -> CONSOLE DOT ID LPAREN args RPAREN .
+
+    SEMICOLON       reduce using rule 40 (method_call -> CONSOLE DOT ID LPAREN args RPAREN .)
+    PLUS            reduce using rule 40 (method_call -> CONSOLE DOT ID LPAREN args RPAREN .)
+    MINUS           reduce using rule 40 (method_call -> CONSOLE DOT ID LPAREN args RPAREN .)
+    TIMES           reduce using rule 40 (method_call -> CONSOLE DOT ID LPAREN args RPAREN .)
+    DIVIDE          reduce using rule 40 (method_call -> CONSOLE DOT ID LPAREN args RPAREN .)
+    MOD             reduce using rule 40 (method_call -> CONSOLE DOT ID LPAREN args RPAREN .)
+    COMPARE         reduce using rule 40 (method_call -> CONSOLE DOT ID LPAREN args RPAREN .)
+    NOTEQUAL        reduce using rule 40 (method_call -> CONSOLE DOT ID LPAREN args RPAREN .)
+    AND             reduce using rule 40 (method_call -> CONSOLE DOT ID LPAREN args RPAREN .)
+    OR              reduce using rule 40 (method_call -> CONSOLE DOT ID LPAREN args RPAREN .)
+    DOT             reduce using rule 40 (method_call -> CONSOLE DOT ID LPAREN args RPAREN .)
+    RPAREN          reduce using rule 40 (method_call -> CONSOLE DOT ID LPAREN args RPAREN .)
+    COMMA           reduce using rule 40 (method_call -> CONSOLE DOT ID LPAREN args RPAREN .)
+
+
+state 125
+
+    (35) if_statement -> IF LPAREN expression RPAREN LBRACE statements . RBRACE
+    (36) if_statement -> IF LPAREN expression RPAREN LBRACE statements . RBRACE ELSE LBRACE statements RBRACE
+    (24) statements -> statements . statement
+    (27) statement -> . declaration SEMICOLON
+    (28) statement -> . assignment SEMICOLON
+    (29) statement -> . method_call SEMICOLON
+    (30) statement -> . expression SEMICOLON
+    (31) statement -> . if_statement
+    (32) statement -> . while_statement
+    (33) declaration -> . type ID EQUAL expression
+    (34) assignment -> . ID EQUAL expression
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (35) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE
+    (36) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE
+    (37) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statements RBRACE
+    (13) type -> . INT
+    (14) type -> . DOUBLE
+    (15) type -> . CHAR
+    (16) type -> . STRINGTYPE
+    (17) type -> . VOID
+
+    RBRACE          shift and go to state 127
+    ID              shift and go to state 42
+    CONSOLE         shift and go to state 54
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    IF              shift and go to state 57
+    WHILE           shift and go to state 58
+    INT             shift and go to state 21
+    DOUBLE          shift and go to state 22
+    CHAR            shift and go to state 23
+    STRINGTYPE      shift and go to state 24
+    VOID            shift and go to state 20
+
+    expression                     shift and go to state 50
+    statement                      shift and go to state 69
+    declaration                    shift and go to state 47
+    assignment                     shift and go to state 48
+    method_call                    shift and go to state 49
+    if_statement                   shift and go to state 51
+    while_statement                shift and go to state 52
+    type                           shift and go to state 53
+
+state 126
+
+    (37) while_statement -> WHILE LPAREN expression RPAREN LBRACE statements . RBRACE
+    (24) statements -> statements . statement
+    (27) statement -> . declaration SEMICOLON
+    (28) statement -> . assignment SEMICOLON
+    (29) statement -> . method_call SEMICOLON
+    (30) statement -> . expression SEMICOLON
+    (31) statement -> . if_statement
+    (32) statement -> . while_statement
+    (33) declaration -> . type ID EQUAL expression
+    (34) assignment -> . ID EQUAL expression
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (35) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE
+    (36) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE
+    (37) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statements RBRACE
+    (13) type -> . INT
+    (14) type -> . DOUBLE
+    (15) type -> . CHAR
+    (16) type -> . STRINGTYPE
+    (17) type -> . VOID
+
+    RBRACE          shift and go to state 128
+    ID              shift and go to state 42
+    CONSOLE         shift and go to state 54
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    IF              shift and go to state 57
+    WHILE           shift and go to state 58
+    INT             shift and go to state 21
+    DOUBLE          shift and go to state 22
+    CHAR            shift and go to state 23
+    STRINGTYPE      shift and go to state 24
+    VOID            shift and go to state 20
+
+    expression                     shift and go to state 50
+    statement                      shift and go to state 69
+    declaration                    shift and go to state 47
+    assignment                     shift and go to state 48
+    method_call                    shift and go to state 49
+    if_statement                   shift and go to state 51
+    while_statement                shift and go to state 52
+    type                           shift and go to state 53
+
+state 127
+
+    (35) if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE .
+    (36) if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE . ELSE LBRACE statements RBRACE
+
+    RBRACE          reduce using rule 35 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE .)
+    ID              reduce using rule 35 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE .)
+    CONSOLE         reduce using rule 35 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE .)
+    NUMBER          reduce using rule 35 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE .)
+    STRING_LITERAL  reduce using rule 35 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE .)
+    LPAREN          reduce using rule 35 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE .)
+    IF              reduce using rule 35 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE .)
+    WHILE           reduce using rule 35 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE .)
+    INT             reduce using rule 35 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE .)
+    DOUBLE          reduce using rule 35 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE .)
+    CHAR            reduce using rule 35 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE .)
+    STRINGTYPE      reduce using rule 35 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE .)
+    VOID            reduce using rule 35 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE .)
+    ELSE            shift and go to state 129
+
+
+state 128
+
+    (37) while_statement -> WHILE LPAREN expression RPAREN LBRACE statements RBRACE .
+
+    RBRACE          reduce using rule 37 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statements RBRACE .)
+    ID              reduce using rule 37 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statements RBRACE .)
+    CONSOLE         reduce using rule 37 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statements RBRACE .)
+    NUMBER          reduce using rule 37 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statements RBRACE .)
+    STRING_LITERAL  reduce using rule 37 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statements RBRACE .)
+    LPAREN          reduce using rule 37 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statements RBRACE .)
+    IF              reduce using rule 37 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statements RBRACE .)
+    WHILE           reduce using rule 37 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statements RBRACE .)
+    INT             reduce using rule 37 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statements RBRACE .)
+    DOUBLE          reduce using rule 37 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statements RBRACE .)
+    CHAR            reduce using rule 37 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statements RBRACE .)
+    STRINGTYPE      reduce using rule 37 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statements RBRACE .)
+    VOID            reduce using rule 37 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statements RBRACE .)
+
+
+state 129
+
+    (36) if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE . LBRACE statements RBRACE
+
+    LBRACE          shift and go to state 130
+
+
+state 130
+
+    (36) if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE . statements RBRACE
+    (24) statements -> . statements statement
+    (25) statements -> . statement
+    (26) statements -> . empty
+    (27) statement -> . declaration SEMICOLON
+    (28) statement -> . assignment SEMICOLON
+    (29) statement -> . method_call SEMICOLON
+    (30) statement -> . expression SEMICOLON
+    (31) statement -> . if_statement
+    (32) statement -> . while_statement
+    (59) empty -> .
+    (33) declaration -> . type ID EQUAL expression
+    (34) assignment -> . ID EQUAL expression
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (35) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE
+    (36) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE
+    (37) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statements RBRACE
+    (13) type -> . INT
+    (14) type -> . DOUBLE
+    (15) type -> . CHAR
+    (16) type -> . STRINGTYPE
+    (17) type -> . VOID
+
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for CONSOLE resolved as shift
+  ! shift/reduce conflict for NUMBER resolved as shift
+  ! shift/reduce conflict for STRING_LITERAL resolved as shift
+  ! shift/reduce conflict for LPAREN resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for DOUBLE resolved as shift
+  ! shift/reduce conflict for CHAR resolved as shift
+  ! shift/reduce conflict for STRINGTYPE resolved as shift
+  ! shift/reduce conflict for VOID resolved as shift
+    RBRACE          reduce using rule 59 (empty -> .)
+    ID              shift and go to state 42
+    CONSOLE         shift and go to state 54
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    IF              shift and go to state 57
+    WHILE           shift and go to state 58
+    INT             shift and go to state 21
+    DOUBLE          shift and go to state 22
+    CHAR            shift and go to state 23
+    STRINGTYPE      shift and go to state 24
+    VOID            shift and go to state 20
+
+  ! ID              [ reduce using rule 59 (empty -> .) ]
+  ! CONSOLE         [ reduce using rule 59 (empty -> .) ]
+  ! NUMBER          [ reduce using rule 59 (empty -> .) ]
+  ! STRING_LITERAL  [ reduce using rule 59 (empty -> .) ]
+  ! LPAREN          [ reduce using rule 59 (empty -> .) ]
+  ! IF              [ reduce using rule 59 (empty -> .) ]
+  ! WHILE           [ reduce using rule 59 (empty -> .) ]
+  ! INT             [ reduce using rule 59 (empty -> .) ]
+  ! DOUBLE          [ reduce using rule 59 (empty -> .) ]
+  ! CHAR            [ reduce using rule 59 (empty -> .) ]
+  ! STRINGTYPE      [ reduce using rule 59 (empty -> .) ]
+  ! VOID            [ reduce using rule 59 (empty -> .) ]
+
+    expression                     shift and go to state 50
+    statements                     shift and go to state 131
+    statement                      shift and go to state 45
+    empty                          shift and go to state 46
+    declaration                    shift and go to state 47
+    assignment                     shift and go to state 48
+    method_call                    shift and go to state 49
+    if_statement                   shift and go to state 51
+    while_statement                shift and go to state 52
+    type                           shift and go to state 53
+
+state 131
+
+    (36) if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements . RBRACE
+    (24) statements -> statements . statement
+    (27) statement -> . declaration SEMICOLON
+    (28) statement -> . assignment SEMICOLON
+    (29) statement -> . method_call SEMICOLON
+    (30) statement -> . expression SEMICOLON
+    (31) statement -> . if_statement
+    (32) statement -> . while_statement
+    (33) declaration -> . type ID EQUAL expression
+    (34) assignment -> . ID EQUAL expression
+    (38) method_call -> . ID LPAREN args RPAREN
+    (39) method_call -> . ID DOT ID LPAREN args RPAREN
+    (40) method_call -> . CONSOLE DOT ID LPAREN args RPAREN
+    (44) expression -> . ID
+    (45) expression -> . NUMBER
+    (46) expression -> . STRING_LITERAL
+    (47) expression -> . method_call
+    (48) expression -> . LPAREN expression RPAREN
+    (49) expression -> . expression PLUS expression
+    (50) expression -> . expression MINUS expression
+    (51) expression -> . expression TIMES expression
+    (52) expression -> . expression DIVIDE expression
+    (53) expression -> . expression MOD expression
+    (54) expression -> . expression COMPARE expression
+    (55) expression -> . expression NOTEQUAL expression
+    (56) expression -> . expression AND expression
+    (57) expression -> . expression OR expression
+    (58) expression -> . expression DOT ID
+    (35) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE
+    (36) if_statement -> . IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE
+    (37) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statements RBRACE
+    (13) type -> . INT
+    (14) type -> . DOUBLE
+    (15) type -> . CHAR
+    (16) type -> . STRINGTYPE
+    (17) type -> . VOID
+
+    RBRACE          shift and go to state 132
+    ID              shift and go to state 42
+    CONSOLE         shift and go to state 54
+    NUMBER          shift and go to state 55
+    STRING_LITERAL  shift and go to state 56
+    LPAREN          shift and go to state 43
+    IF              shift and go to state 57
+    WHILE           shift and go to state 58
+    INT             shift and go to state 21
+    DOUBLE          shift and go to state 22
+    CHAR            shift and go to state 23
+    STRINGTYPE      shift and go to state 24
+    VOID            shift and go to state 20
+
+    expression                     shift and go to state 50
+    statement                      shift and go to state 69
+    declaration                    shift and go to state 47
+    assignment                     shift and go to state 48
+    method_call                    shift and go to state 49
+    if_statement                   shift and go to state 51
+    while_statement                shift and go to state 52
+    type                           shift and go to state 53
+
+state 132
+
+    (36) if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE .
+
+    RBRACE          reduce using rule 36 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE .)
+    ID              reduce using rule 36 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE .)
+    CONSOLE         reduce using rule 36 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE .)
+    NUMBER          reduce using rule 36 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE .)
+    STRING_LITERAL  reduce using rule 36 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE .)
+    LPAREN          reduce using rule 36 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE .)
+    IF              reduce using rule 36 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE .)
+    WHILE           reduce using rule 36 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE .)
+    INT             reduce using rule 36 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE .)
+    DOUBLE          reduce using rule 36 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE .)
+    CHAR            reduce using rule 36 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE .)
+    STRINGTYPE      reduce using rule 36 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE .)
+    VOID            reduce using rule 36 (if_statement -> IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for ELSE in state 20 resolved as shift
+WARNING: shift/reduce conflict for USING in state 0 resolved as shift
+WARNING: shift/reduce conflict for STATIC in state 12 resolved as shift
+WARNING: shift/reduce conflict for INT in state 12 resolved as shift
+WARNING: shift/reduce conflict for DOUBLE in state 12 resolved as shift
+WARNING: shift/reduce conflict for CHAR in state 12 resolved as shift
+WARNING: shift/reduce conflict for STRINGTYPE in state 12 resolved as shift
+WARNING: shift/reduce conflict for VOID in state 12 resolved as shift
+WARNING: shift/reduce conflict for ID in state 37 resolved as shift
+WARNING: shift/reduce conflict for CONSOLE in state 37 resolved as shift
+WARNING: shift/reduce conflict for NUMBER in state 37 resolved as shift
+WARNING: shift/reduce conflict for STRING_LITERAL in state 37 resolved as shift
+WARNING: shift/reduce conflict for LPAREN in state 37 resolved as shift
+WARNING: shift/reduce conflict for IF in state 37 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 37 resolved as shift
+WARNING: shift/reduce conflict for INT in state 37 resolved as shift
+WARNING: shift/reduce conflict for DOUBLE in state 37 resolved as shift
+WARNING: shift/reduce conflict for CHAR in state 37 resolved as shift
+WARNING: shift/reduce conflict for STRINGTYPE in state 37 resolved as shift
+WARNING: shift/reduce conflict for VOID in state 37 resolved as shift
+WARNING: shift/reduce conflict for DOT in state 42 resolved as shift
+WARNING: shift/reduce conflict for SEMICOLON in state 49 resolved as shift
+WARNING: shift/reduce conflict for ID in state 59 resolved as shift
+WARNING: shift/reduce conflict for CONSOLE in state 59 resolved as shift
+WARNING: shift/reduce conflict for NUMBER in state 59 resolved as shift
+WARNING: shift/reduce conflict for STRING_LITERAL in state 59 resolved as shift
+WARNING: shift/reduce conflict for LPAREN in state 59 resolved as shift
+WARNING: shift/reduce conflict for IF in state 59 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 59 resolved as shift
+WARNING: shift/reduce conflict for INT in state 59 resolved as shift
+WARNING: shift/reduce conflict for DOUBLE in state 59 resolved as shift
+WARNING: shift/reduce conflict for CHAR in state 59 resolved as shift
+WARNING: shift/reduce conflict for STRINGTYPE in state 59 resolved as shift
+WARNING: shift/reduce conflict for VOID in state 59 resolved as shift
+WARNING: shift/reduce conflict for DOT in state 66 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 96 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 96 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 96 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 96 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 96 resolved as shift
+WARNING: shift/reduce conflict for COMPARE in state 96 resolved as shift
+WARNING: shift/reduce conflict for NOTEQUAL in state 96 resolved as shift
+WARNING: shift/reduce conflict for AND in state 96 resolved as shift
+WARNING: shift/reduce conflict for OR in state 96 resolved as shift
+WARNING: shift/reduce conflict for DOT in state 96 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 97 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 97 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 97 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 97 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 97 resolved as shift
+WARNING: shift/reduce conflict for COMPARE in state 97 resolved as shift
+WARNING: shift/reduce conflict for NOTEQUAL in state 97 resolved as shift
+WARNING: shift/reduce conflict for AND in state 97 resolved as shift
+WARNING: shift/reduce conflict for OR in state 97 resolved as shift
+WARNING: shift/reduce conflict for DOT in state 97 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 98 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 98 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 98 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 98 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 98 resolved as shift
+WARNING: shift/reduce conflict for COMPARE in state 98 resolved as shift
+WARNING: shift/reduce conflict for NOTEQUAL in state 98 resolved as shift
+WARNING: shift/reduce conflict for AND in state 98 resolved as shift
+WARNING: shift/reduce conflict for OR in state 98 resolved as shift
+WARNING: shift/reduce conflict for DOT in state 98 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 99 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 99 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 99 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 99 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 99 resolved as shift
+WARNING: shift/reduce conflict for COMPARE in state 99 resolved as shift
+WARNING: shift/reduce conflict for NOTEQUAL in state 99 resolved as shift
+WARNING: shift/reduce conflict for AND in state 99 resolved as shift
+WARNING: shift/reduce conflict for OR in state 99 resolved as shift
+WARNING: shift/reduce conflict for DOT in state 99 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 100 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 100 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 100 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 100 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 100 resolved as shift
+WARNING: shift/reduce conflict for COMPARE in state 100 resolved as shift
+WARNING: shift/reduce conflict for NOTEQUAL in state 100 resolved as shift
+WARNING: shift/reduce conflict for AND in state 100 resolved as shift
+WARNING: shift/reduce conflict for OR in state 100 resolved as shift
+WARNING: shift/reduce conflict for DOT in state 100 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 101 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 101 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 101 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 101 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 101 resolved as shift
+WARNING: shift/reduce conflict for COMPARE in state 101 resolved as shift
+WARNING: shift/reduce conflict for NOTEQUAL in state 101 resolved as shift
+WARNING: shift/reduce conflict for AND in state 101 resolved as shift
+WARNING: shift/reduce conflict for OR in state 101 resolved as shift
+WARNING: shift/reduce conflict for DOT in state 101 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 102 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 102 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 102 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 102 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 102 resolved as shift
+WARNING: shift/reduce conflict for COMPARE in state 102 resolved as shift
+WARNING: shift/reduce conflict for NOTEQUAL in state 102 resolved as shift
+WARNING: shift/reduce conflict for AND in state 102 resolved as shift
+WARNING: shift/reduce conflict for OR in state 102 resolved as shift
+WARNING: shift/reduce conflict for DOT in state 102 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 103 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 103 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 103 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 103 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 103 resolved as shift
+WARNING: shift/reduce conflict for COMPARE in state 103 resolved as shift
+WARNING: shift/reduce conflict for NOTEQUAL in state 103 resolved as shift
+WARNING: shift/reduce conflict for AND in state 103 resolved as shift
+WARNING: shift/reduce conflict for OR in state 103 resolved as shift
+WARNING: shift/reduce conflict for DOT in state 103 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 104 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 104 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 104 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 104 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 104 resolved as shift
+WARNING: shift/reduce conflict for COMPARE in state 104 resolved as shift
+WARNING: shift/reduce conflict for NOTEQUAL in state 104 resolved as shift
+WARNING: shift/reduce conflict for AND in state 104 resolved as shift
+WARNING: shift/reduce conflict for OR in state 104 resolved as shift
+WARNING: shift/reduce conflict for DOT in state 104 resolved as shift
+WARNING: shift/reduce conflict for ID in state 121 resolved as shift
+WARNING: shift/reduce conflict for CONSOLE in state 121 resolved as shift
+WARNING: shift/reduce conflict for NUMBER in state 121 resolved as shift
+WARNING: shift/reduce conflict for STRING_LITERAL in state 121 resolved as shift
+WARNING: shift/reduce conflict for LPAREN in state 121 resolved as shift
+WARNING: shift/reduce conflict for IF in state 121 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 121 resolved as shift
+WARNING: shift/reduce conflict for INT in state 121 resolved as shift
+WARNING: shift/reduce conflict for DOUBLE in state 121 resolved as shift
+WARNING: shift/reduce conflict for CHAR in state 121 resolved as shift
+WARNING: shift/reduce conflict for STRINGTYPE in state 121 resolved as shift
+WARNING: shift/reduce conflict for VOID in state 121 resolved as shift
+WARNING: shift/reduce conflict for ID in state 122 resolved as shift
+WARNING: shift/reduce conflict for CONSOLE in state 122 resolved as shift
+WARNING: shift/reduce conflict for NUMBER in state 122 resolved as shift
+WARNING: shift/reduce conflict for STRING_LITERAL in state 122 resolved as shift
+WARNING: shift/reduce conflict for LPAREN in state 122 resolved as shift
+WARNING: shift/reduce conflict for IF in state 122 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 122 resolved as shift
+WARNING: shift/reduce conflict for INT in state 122 resolved as shift
+WARNING: shift/reduce conflict for DOUBLE in state 122 resolved as shift
+WARNING: shift/reduce conflict for CHAR in state 122 resolved as shift
+WARNING: shift/reduce conflict for STRINGTYPE in state 122 resolved as shift
+WARNING: shift/reduce conflict for VOID in state 122 resolved as shift
+WARNING: shift/reduce conflict for ID in state 130 resolved as shift
+WARNING: shift/reduce conflict for CONSOLE in state 130 resolved as shift
+WARNING: shift/reduce conflict for NUMBER in state 130 resolved as shift
+WARNING: shift/reduce conflict for STRING_LITERAL in state 130 resolved as shift
+WARNING: shift/reduce conflict for LPAREN in state 130 resolved as shift
+WARNING: shift/reduce conflict for IF in state 130 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 130 resolved as shift
+WARNING: shift/reduce conflict for INT in state 130 resolved as shift
+WARNING: shift/reduce conflict for DOUBLE in state 130 resolved as shift
+WARNING: shift/reduce conflict for CHAR in state 130 resolved as shift
+WARNING: shift/reduce conflict for STRINGTYPE in state 130 resolved as shift
+WARNING: shift/reduce conflict for VOID in state 130 resolved as shift
