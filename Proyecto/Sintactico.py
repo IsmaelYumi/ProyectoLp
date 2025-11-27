@@ -13,7 +13,6 @@ def log(level, message):
         f.write(linea + "\n")
 
 
-
 # ===========================
 # PROGRAMA
 # ===========================
@@ -35,7 +34,8 @@ def p_using_section(p):
 # CLASE
 # ===========================
 def p_class_section(p):
-    """class_section : CLASS ID LBRACE class_body RBRACE"""
+    """class_section : CLASS ID LBRACE class_body RBRACE 
+                     | CLASS PROGRAM LBRACE class_body RBRACE """
 
     log("OK","Expresion verificada , nombre de clase correcto:"f"{p[1]},")
     pass
@@ -111,7 +111,9 @@ def p_statement(p):
                  | expression SEMICOLON
                  | if_statement
                  | while_statement"""
+    log("OK","Expresion verificada , declaracion  correcta"f"{p[1]}")
     pass
+
  
 # ===========================
 # DECLARACIÓN / ASIGNACIÓN

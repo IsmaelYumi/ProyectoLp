@@ -1,0 +1,8 @@
+ [OK] Expresion verificada , Tipo delcarado correctamente:double
+ [OK] Expresion verificada , declaracion  correcta=
+ [OK] Expresion verificada , Tipo delcarado correctamente:double
+ [OK] Expresion verificada , declaracion  correcta=
+ [OK] Expresion verificada , Tipo delcarado correctamente:double
+ [OK] Expresion verificada , declaracion  correcta=
+ [OK] Expresion verificada , metodo delcarado correctamente:Main
+ [OK] Expresion verificada , nombre de clase correcto:class,
