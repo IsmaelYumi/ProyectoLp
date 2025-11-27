@@ -2,6 +2,11 @@ import ply.yacc as yacc
 from Lexico import tokens, lexer
 import os
 
+# Crear carpeta Logs relativa al módulo actual
+LOG_DIR = os.path.join(os.path.dirname(__file__), "Logs")
+os.makedirs(LOG_DIR, exist_ok=True)
+import os
+
 start = "program"
 
 #Funcion para logs
@@ -211,8 +216,15 @@ def p_error(p):
     with open(f"./Logs/Sintactico-{lexer.nombre_archivo}-{lexer.fecha_actual}.txt",
               "a+", encoding="utf-8") as f:
         f.write(mensaje + "\n")
+    # Para la GUI:
+    raise Exception(mensaje)
+
 
 parser = yacc.yacc(write_tables=False)
 
 def analizador_sintactico(data):
-    return parser.parse(data, lexer=lexer)
+    try:
+        resultado = parser.parse(data, lexer=lexer)
+        return ["✔ Análisis sintáctico completado sin errores."]
+    except Exception as e:
+        return [f"❌ Error sintáctico: {str(e)}"]
