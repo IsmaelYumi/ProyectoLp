@@ -1,7 +1,17 @@
 import ply.yacc as yacc
 from Lexico import tokens, lexer
+import os
 
 start = "program"
+
+#Funcion para logs
+def log(level, message):
+    os.makedirs("./Logs", exist_ok=True)
+    ruta = f"./Logs/Sintactico-{lexer.nombre_archivo}-{lexer.fecha_actual}.txt"
+    linea= f" [{level}] {message}"
+    with open(ruta, "a+", encoding="utf-8") as f:
+        f.write(linea + "\n")
+
 
 # ===========================
 # PROGRAMA
@@ -24,7 +34,10 @@ def p_using_section(p):
 # CLASE
 # ===========================
 def p_class_section(p):
-    """class_section : CLASS ID LBRACE class_body RBRACE"""
+    """class_section : CLASS ID LBRACE class_body RBRACE 
+                     | CLASS PROGRAM LBRACE class_body RBRACE """
+
+    log("OK","Expresion verificada , nombre de clase correcto:"f"{p[1]},")
     pass
 
 def p_class_body(p):
@@ -43,6 +56,7 @@ def p_class_member(p):
 # ===========================
 def p_property(p):
     """property : type ID SEMICOLON"""
+    log("OK","Expresion verificada , propiedad declarada correctamente:"f"{p[1]}")
     pass
 
 # ===========================
@@ -55,6 +69,7 @@ def p_type(p):
             | STRINGTYPE
             | VOID"""
     p[0] = p[1]
+    log("OK","Expresion verificada , Tipo delcarado correctamente:"f"{p[0]}")
 
 # ===========================
 # MÉTODOS
@@ -64,6 +79,7 @@ def p_method(p):
     method : STATIC VOID ID LPAREN RPAREN LBRACE statements RBRACE
            | STATIC VOID ID LPAREN parameter_list RPAREN LBRACE statements RBRACE
     """
+    log("OK","Expresion verificada , metodo delcarado correctamente:"f"{p[3]}")
     pass
 
 # ===========================
@@ -76,6 +92,7 @@ def p_parameter_list(p):
 
 def p_param(p):
     """param : type ID"""
+    log("OK","Expresion verificada , parametro declarado correctamente:"f"{p[3]}")
     pass
 
 # ===========================
@@ -94,13 +111,16 @@ def p_statement(p):
                  | expression SEMICOLON
                  | if_statement
                  | while_statement"""
+    log("OK","Expresion verificada , declaracion  correcta"f"{p[1]}")
     pass
 
+ 
 # ===========================
 # DECLARACIÓN / ASIGNACIÓN
 # ===========================
 def p_declaration(p):
     """declaration : type ID EQUAL expression"""
+    log("OK","Expresion verificada , declaracion  correcta"f"{p[3]}")
     pass
 
 def p_assignment(p):
@@ -113,6 +133,7 @@ def p_assignment(p):
 def p_if_statement(p):
     """if_statement : IF LPAREN expression RPAREN LBRACE statements RBRACE
                     | IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE"""
+    log("OK","Expresion verificada , declaracion  correcta"f"{p[0]}{p[1]}{p[2]}")
     pass
 
 def p_while_statement(p):
