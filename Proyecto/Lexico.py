@@ -1,5 +1,10 @@
 import ply.lex as lex
 from datetime import datetime
+import os
+
+# Crear carpeta Logs relativa al módulo actual
+LOG_DIR = os.path.join(os.path.dirname(__file__), "Logs")
+os.makedirs(LOG_DIR, exist_ok=True)
 
 # ============================
 # PALABRAS RESERVADAS
@@ -135,16 +140,28 @@ lexer = lex.lex()
 # FUNCIÓN PRINCIPAL
 # ============================
 def analizador_lexico(data, nombre):
+    # === Configuración y LOG ===
     lexer.input(data)
     lexer.nombre_archivo = nombre
     lexer.fecha_actual = datetime.now().strftime("%d-%m-%Y")
 
-    ruta = f"./Logs/lexico-{nombre}-{lexer.fecha_actual}.txt"
-    with open(ruta, "w+", encoding="utf-8") as out:
-        while True:
-            tok = lexer.token()
-            if not tok:
-                break
-            line = f"{tok.type}({tok.value}) en linea {tok.lineno} posicion {tok.lexpos}"
-            print(line)
-            out.write(line + "\n")
+    ruta = os.path.join(LOG_DIR, f"lexico-{nombre}-{lexer.fecha_actual}.txt")
+
+    out = open(ruta, "w+", encoding="utf-8")
+
+    tokens_gui = []   # Tokens para la GUI
+
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break
+
+        line = f"{tok.type}({tok.value}) en linea {tok.lineno} posicion {tok.lexpos}"
+        out.write(line + "\n")
+        print(line)
+
+        # Para la GUI:
+        tokens_gui.append((tok.type, tok.value, tok.lineno))
+
+    out.close()
+    return tokens_gui

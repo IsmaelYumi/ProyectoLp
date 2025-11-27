@@ -1,12 +1,18 @@
 import ply.yacc as yacc
 from Lexico import tokens, lexer
+import os
+
+# Crear carpeta Logs relativa al módulo actual
+LOG_DIR = os.path.join(os.path.dirname(__file__), "Logs")
+os.makedirs(LOG_DIR, exist_ok=True)
 
 tabla = {}
 builtins = {"Console", "Convert", "Program", "System"}
-
+errores_semanticos = []
 start = "program"
 
 def log_error(msg):
+    errores_semanticos.append(msg)
     with open(f"./Logs/Semantico-{lexer.nombre_archivo}-{lexer.fecha_actual}.txt",
               "a+", encoding="utf-8") as f:
         f.write(msg + "\n")
@@ -180,4 +186,11 @@ def p_error(p):
 parser = yacc.yacc(write_tables=False)
 
 def analizador_semantico(data):
-    return parser.parse(data, lexer=lexer)
+    errores_semanticos.clear()   # limpiar errores previos
+    parser.parse(data, lexer=lexer)
+
+    if errores_semanticos:
+        return errores_semanticos
+    else:
+        return ["✔ Código semánticamente correcto."]
+
