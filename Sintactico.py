@@ -3,7 +3,7 @@ from Lexico import tokens, lexer
 import os
 
 start = "program"
-
+log_sematico=[]
 #Funcion para logs
 def log(level, message):
     os.makedirs("./Logs", exist_ok=True)
@@ -11,7 +11,7 @@ def log(level, message):
     linea= f" [{level}] {message}"
     with open(ruta, "a+", encoding="utf-8") as f:
         f.write(linea + "\n")
-
+    log_sematico.append(linea)
 
 # ===========================
 # PROGRAMA
@@ -195,9 +195,6 @@ def p_expression_dot(p):
     """expression : expression DOT ID"""
     pass
 
-
-
-
 # ===========================
 # EMPTY
 # ===========================
@@ -217,4 +214,5 @@ def p_error(p):
 parser = yacc.yacc(write_tables=False)
 
 def analizador_sintactico(data):
-    return parser.parse(data, lexer=lexer)
+    parser.parse(data, lexer=lexer)
+    return log_sematico

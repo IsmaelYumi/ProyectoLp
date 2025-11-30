@@ -196,3 +196,4 @@ Este proyecto es de uso académico.
 
 - PLY (Python Lex-Yacc) por facilitar la implementación de compiladores
 - Documentación oficial de Python y Tkinter
+- A nuestra profesora de Lenguajes de programacion
