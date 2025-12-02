@@ -23,7 +23,11 @@ reserved = {
     'class': 'CLASS',
     'Program': 'PROGRAM',
     'static': 'STATIC',
-    'void': 'VOID'
+    'void': 'VOID',
+    'switch':'SWITCH',
+    'case':'CASE',
+    'default':'DEFAULT',
+    'break': 'BREAK'
 }
 
 # ============================
@@ -51,7 +55,8 @@ tokens = (
     'ID',
     'STRING_LITERAL',
     'AND',
-    'OR'
+    'OR',
+    'COLON',
 ) + tuple(reserved.values())
 
 # ============================
@@ -68,6 +73,7 @@ t_RBRACE     = r'\}'
 t_LBRACKET   = r'\['
 t_RBRACKET   = r'\]'
 t_SEMICOLON  = r';'
+t_COLON      = r','
 t_DOT        = r'\.'
 t_COMMA      = r','
 t_MOD        = r'%'
@@ -76,6 +82,7 @@ t_NOTEQUAL   = r'!='
 t_EQUAL      = r'='
 t_AND        = r'&&'
 t_OR         = r'\|\|'
+
 
 # ============================
 # IDENTIFICADORES
@@ -155,11 +162,9 @@ def analizador_lexico(data, nombre):
         tok = lexer.token()
         if not tok:
             break
-
         line = f"{tok.type}({tok.value}) en linea {tok.lineno} posicion {tok.lexpos}"
         out.write(line + "\n")
         print(line)
-
         # Para la GUI:
         tokens_gui.append((tok.type, tok.value, tok.lineno))
 

@@ -201,6 +201,32 @@ def p_expression_dot(p):
 def p_empty(p):
     """empty :"""
     pass
+# ===========================
+# SWITCH-CASE
+# ===========================
+def p_switch_statement(p):
+    """switch_statement : SWITCH LPAREN expression RPAREN LBRACE case_list RBRACE
+                        | SWITCH LPAREN expression RPAREN LBRACE case_list default_case RBRACE"""
+    log("OK", f"Switch statement verificado correctamente")
+    pass
+
+def p_case_list(p):
+    """case_list : case_list case_clause
+                 | case_clause"""
+    pass
+
+def p_case_clause(p):
+    """case_clause : CASE expression COLON statements BREAK SEMICOLON
+                   | CASE expression COLON statements"""
+    log("OK", f"Case clause verificado: {p[2]}")
+    pass
+
+def p_default_case(p):
+    """default_case : DEFAULT COLON statements
+                    | DEFAULT COLON statements BREAK SEMICOLON"""
+    log("OK", "Default case verificado correctamente")
+    pass
+
 
 # ===========================
 # ERROR
@@ -210,9 +236,7 @@ def p_error(p):
     with open(f"./Logs/Sintactico-{lexer.nombre_archivo}-{lexer.fecha_actual}.txt",
               "a+", encoding="utf-8") as f:
         f.write(mensaje + "\n")
-
 parser = yacc.yacc(write_tables=False)
-
 def analizador_sintactico(data):
     parser.parse(data, lexer=lexer)
     return log_sematico
