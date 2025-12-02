@@ -64,8 +64,28 @@ def p_type(p):
             | DOUBLE
             | CHAR
             | STRINGTYPE
-            | VOID"""
-    p[0] = p[1]
+            | VOID
+            | INT LBRACKET RBRACKET
+            | STRINGTYPE LBRACKET RBRACKET
+            | CHAR LBRACKET RBRACKET
+            | DOUBLE LBRACKET RBRACKET
+            | LIST LT INT GT
+            | LIST LT DOUBLE GT
+            | LIST LT CHAR GT
+            | LIST LT STRINGTYPE GT"""
+    
+    if len(p) == 2:
+        p[0] = p[1]
+    elif len(p) == 4:
+        p[0] = f"{p[1]}[]"
+    else:
+        p[0] = f"List<{p[3]}>"
+
+
+    
+    # Guardamos el tipo como string
+    p[0] = "array"
+
 
 def p_method(p):
     """method : STATIC VOID ID LPAREN RPAREN LBRACE statements RBRACE
@@ -186,11 +206,12 @@ def p_error(p):
 parser = yacc.yacc(write_tables=False)
 
 def analizador_semantico(data):
-    errores_semanticos.clear()   # limpiar errores previos
+    tabla.clear()              # 🔥 LIMPIA TABLA DE SÍMBOLOS
+    errores_semanticos.clear()
     parser.parse(data, lexer=lexer)
 
     if errores_semanticos:
         return errores_semanticos
-    else:
-        return ["✔ Código semánticamente correcto."]
+    return ["✔ Código semánticamente correcto."]
+
 

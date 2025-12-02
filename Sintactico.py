@@ -67,9 +67,25 @@ def p_type(p):
             | DOUBLE
             | CHAR
             | STRINGTYPE
-            | VOID"""
-    p[0] = p[1]
-    log("OK","Expresion verificada , Tipo delcarado correctamente:"f"{p[0]}")
+            | VOID
+            | INT LBRACKET RBRACKET
+            | STRINGTYPE LBRACKET RBRACKET
+            | CHAR LBRACKET RBRACKET
+            | DOUBLE LBRACKET RBRACKET
+            | LIST LT INT GT
+            | LIST LT DOUBLE GT
+            | LIST LT CHAR GT
+            | LIST LT STRINGTYPE GT"""
+    
+    if len(p) == 2:
+        p[0] = p[1]
+    elif len(p) == 4:
+        p[0] = f"{p[1]}[]"
+    else:
+        p[0] = f"List<{p[3]}>"
+
+
+
 
 # ===========================
 # MÉTODOS
@@ -232,11 +248,20 @@ def p_default_case(p):
 # ERROR
 # ===========================
 def p_error(p):
-    mensaje = f"Syntax error cerca de: {p.value if p else 'EOF'}"
+    mensaje = f"[ERROR] Syntax error cerca de: {p.value if p else 'EOF'}"
+
+    # Guardar en archivo
     with open(f"./Logs/Sintactico-{lexer.nombre_archivo}-{lexer.fecha_actual}.txt",
               "a+", encoding="utf-8") as f:
         f.write(mensaje + "\n")
+
+    # 🔥 MOSTRAR TAMBIÉN EN LA GUI
+    log_sematico.append(mensaje)
+
 parser = yacc.yacc(write_tables=False)
 def analizador_sintactico(data):
+    global log_sematico
+    log_sematico.clear()   # 🔥 LIMPIAR LOGS PREVIOS
+
     parser.parse(data, lexer=lexer)
     return log_sematico

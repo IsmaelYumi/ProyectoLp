@@ -27,7 +27,8 @@ reserved = {
     'switch':'SWITCH',
     'case':'CASE',
     'default':'DEFAULT',
-    'break': 'BREAK'
+    'break': 'BREAK',
+    'List': 'LIST'
 }
 
 # ============================
@@ -57,6 +58,9 @@ tokens = (
     'AND',
     'OR',
     'COLON',
+    'LT',
+    'GT'
+
 ) + tuple(reserved.values())
 
 # ============================
@@ -73,7 +77,7 @@ t_RBRACE     = r'\}'
 t_LBRACKET   = r'\['
 t_RBRACKET   = r'\]'
 t_SEMICOLON  = r';'
-t_COLON      = r','
+t_COLON      = r':'
 t_DOT        = r'\.'
 t_COMMA      = r','
 t_MOD        = r'%'
@@ -82,6 +86,9 @@ t_NOTEQUAL   = r'!='
 t_EQUAL      = r'='
 t_AND        = r'&&'
 t_OR         = r'\|\|'
+t_LT = r'<'
+t_GT = r'>'
+
 
 
 # ============================
