@@ -16,7 +16,7 @@ class Program
         Console.WriteLine($"\n¿\"{cadena1}\" es palíndromo? {esPalindromo1}");
         Console.WriteLine($"¿\"{cadena2}\" es palíndromo? {esPalindromo2}");
 
-        if (esPalindromo1 && esPalindromo2)
+        if (esPalindromo1 && esPalindromo2
         {
             Console.WriteLine("\nAmbas cadenas son palíndromos.");
         }

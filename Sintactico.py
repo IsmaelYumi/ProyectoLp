@@ -236,6 +236,7 @@ def p_error(p):
     with open(f"./Logs/Sintactico-{lexer.nombre_archivo}-{lexer.fecha_actual}.txt",
               "a+", encoding="utf-8") as f:
         f.write(mensaje + "\n")
+    log_sematico.append(mensaje)
 parser = yacc.yacc(write_tables=False)
 def analizador_sintactico(data):
     parser.parse(data, lexer=lexer)
